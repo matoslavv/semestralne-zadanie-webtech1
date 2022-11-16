@@ -25,6 +25,8 @@ const Board = {
 
 		this.desk[selectedTile.x][selectedTile.y].value = BASE_VALUE;
 		console.log(this.desk[selectedTile.x][selectedTile.y]);
+
+		Draw.drawBox(this.desk[selectedTile.x][selectedTile.y]);
 	},
 }
 
@@ -35,16 +37,41 @@ const Draw = {
 			for (let j = 0; j < SIZE; j++) {
 				const box = document.createElement('div');
 				box.classList.add('box');
-				boardElement.appendChild(box);
+				// boardElement.appendChild(box);
 			}
 		}
 	},
-	drawBox: function () {
+	calculatePixelPosition: function (x, y) {
+		const left = boardElement.getBoundingClientRect().width / SIZE * x;
+		const top = boardElement.getBoundingClientRect().width / SIZE * y;
+
+		return {x: left, y: top};
 	},
-	createBox: function (x, y) { // je potreba suradnice?
+	drawBox: function (box) {
+		const pixelPosition = this.calculatePixelPosition(box.x, box.y);
+		// console.log(pixelPosition);
+		const boxElement = this.createBox(pixelPosition.x, pixelPosition.y);
+		// boxElement.innerHTML = box.value;
+
+		boardElement.appendChild(boxElement);
+
+		// console.log(boxElement);
+		console.log(box);
+	},
+	createBox: function (x, y) {
 		const box = document.createElement('div');
 		box.classList.add('box');
-		boardElement.appendChild(box);
+		box.classList.add('box-3');
+		box.style.left = x + 'px';
+		box.style.top = y + 'px';
+
+		const boxNumber = document.createElement('span');
+		boxNumber.classList.add('boxNumber');
+		boxNumber.textContent = 3;
+		box.appendChild(boxNumber);
+
+		console.log(box);
+		return box;
 	},
 	updateBox: function (x, y, value) {
 
