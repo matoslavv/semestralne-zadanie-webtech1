@@ -27,47 +27,47 @@
   border-radius: 10px;
 }
 
-.box3{
+.box-3{
   background-color: #d0c953;
 }
 
-.box6{
+.box-6{
   background-color: #faec05;
 }
 
-.box12{
+.box-12{
   background-color: #7adf6a;
 }
 
-.box24{
+.box-24{
   background-color: #05f80b;
 }
 
-.box48{
+.box-48{
   background-color: #05f8e4;
 }
 
-.box96{
+.box-96{
   background-color: #0d06a0;
 }
 
-.box192{
+.box-192{
   background-color: #bd4fbe;
 }
 
-.box384{
+.box-384{
   background-color: #510652;
 }
 
-.box768{
+.box-768{
   background-color: #fc7305;
 }
 
-.box1536{
+.box-1536{
   background-color: #e02823;
 }
 
-.box3072{
+.box-3072{
   background-color: #1b0302;
   color: whitesmoke;
 }
