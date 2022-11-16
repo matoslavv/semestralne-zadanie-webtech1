@@ -17,16 +17,11 @@ const Board = {
 		for (let i = 0; i < SIZE; i++) {
 			this._desk[i] = [];
 			for (let j = 0; j < SIZE; j++) {
-				const box = {
-					x: i,
-					y: j,
-					value: 0
-				};
-				this._desk[i][j] = box;
+				this._desk[i][j] = this.getEmptyBox(i, j);
 			}
 		}
 	},
-	generateBox: function () { // get one random tile from 2D array where value == 0 & set 3
+	generateBox: function () {
 		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value === 0);
 
 		if (freeTiles.length === 0) {
@@ -36,17 +31,117 @@ const Board = {
 
 		const selectedTile = freeTiles[Math.floor(Math.random()*freeTiles.length)];
 		this._desk[selectedTile.x][selectedTile.y].value = BASE_VALUE;
-		console.log(this._desk[selectedTile.x][selectedTile.y]);
 
 		Draw.drawBox(this._desk[selectedTile.x][selectedTile.y]);
 	},
+	getDirectionCoords: function (direction) {
+		switch (direction) {
+			case DIRECTION.UP:
+				return {x: 0, y: -1}
+			case DIRECTION.DOWN:
+				return {x: 0, y: 1};
+			case DIRECTION.LEFT:
+				return {x: 1, y: 0};
+			case DIRECTION.RIGHT:
+				return {x: -1, y: 0};
+		}
+	},
+	getEmptyBox: function (x, y) {
+		return {x, y, value: 0};
+	},
+	getHgfg: function (direction) {
+		switch (direction) {
+			case DIRECTION.LEFT:
+			case DIRECTION.UP:
+				return {start: 0, end: SIZE, kremes: 1}
+			case DIRECTION.RIGHT:
+			case DIRECTION.DOWN:
+				return {start: SIZE-1, end: -1, kremes: -1}
+		}
+	},
+	mergeBoxes: function (direction) {
+		// for (let i = 0; i < SIZE; i++) {
+		// 	// [SIZE-i]
+		// 	for (let j = 0; j < SIZE; j++) {
+		// 		const substractPosition = this.getDirectionCoords(direction);
+		// 		if (this._desk[i][j].value === this._desk[i+substractPosition.x][j+substractPosition.y].value && this._desk[i][j].value) {
+		// 			// merge
+		// 			const consumerBox = this._desk[i][j];
+		// 			const producerBox = this._desk[i+substractPosition.x][j+substractPosition.y];
+		// 		}
+		// 	}
+		// }
+
+		console.log(this._desk);
+		const columnBoxes = [];
+		// console.log(this._desk[0]);
+		const hgfg = this.getHgfg(direction);
+		console.log(hgfg);
+		// for (let i = 0; i < SIZE; i++) { // ak ideme Zhora dole, tak otocime pole?
+		// 	columnBoxes.push(this._desk[0][i]);
+		// }
+
+		// for (let s = 0; s < SIZE; s++) {
+			const s = 0;
+
+			// for (let i = hgfg.start; i > hgfg.end; i+=hgfg.kremes) {
+			for (let i = hgfg.start; i > hgfg.end; i+=hgfg.kremes) {
+				// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+					columnBoxes.push(this._desk[s][i]);
+				// } else {
+				// 	columnBoxes.push(this._desk[i][s]);
+				// }
+				// columnBoxes.push(this._desk[0][i]);
+			}
+
+			let filteredColumnBoxes = columnBoxes.filter(box => box.value !== 0);
+			console.log(filteredColumnBoxes);
+			for (let j = 0; j < filteredColumnBoxes.length - 1; j++) {
+				if (filteredColumnBoxes[j].value === filteredColumnBoxes[j+1].value) {
+					filteredColumnBoxes[j].value *= 2;
+					filteredColumnBoxes.splice(j+1, 1);
+					console.log(filteredColumnBoxes);
+				}
+			}
+
+			if (filteredColumnBoxes.length) {
+				for (let j = hgfg.start; j > hgfg.end; j+=hgfg.kremes) {
+					if (j < filteredColumnBoxes.length) {
+						// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+							this._desk[s][j].value = filteredColumnBoxes[j].value; // fix
+						// } else {
+						// 	this._desk[j][s].value = filteredColumnBoxes[j].value; // fix
+						// }
+
+						// this._desk[0][j].value = filteredColumnBoxes[j].value; // fix
+					} else {
+						// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+							this._desk[s][j].value = 0; // fix
+						// } else {
+						// 	this._desk[j][s].value = 0; // fix
+						// }
+						// this._desk[0][j].value = 0; // fix
+					}
+				}
+				// for (let j = 0; j < SIZE; j++) {
+				// 	if (j < filteredColumnBoxes.length) {
+				// 		this._desk[0][j].value = filteredColumnBoxes[j].value; // fix
+				// 	} else {
+				// 		this._desk[0][j].value = 0; // fix
+				// 	}
+				// }
+			}
+
+		// }
+		console.log(this._desk);
+
+	}
 }
 
 
 const Draw = {
 	init: function () {
 		boardElement.innerHTML = "";
-
 		// for (let i = 0; i < SIZE; i++) {
 		// 	for (let j = 0; j < SIZE; j++) {
 		// 		const box = document.createElement('div');
@@ -69,7 +164,7 @@ const Draw = {
 		boardElement.appendChild(boxElement);
 
 		// console.log(boxElement);
-		console.log(box);
+		// console.log(box);
 	},
 	createBox: function (x, y) {
 		const box = document.createElement('div');
@@ -83,7 +178,7 @@ const Draw = {
 		boxNumber.textContent = 3;
 		box.appendChild(boxNumber);
 
-		console.log(box);
+		// console.log(box);
 		return box;
 	},
 	updateBox: function (x, y, value) {
@@ -96,7 +191,11 @@ const Player = {
 	makeMove: function (direction) {
 		console.log(direction);
 
-		Board.generateBox();
+
+		Board.mergeBoxes(direction);
+
+
+		Board.generateBox(); // last
 	},
 	incrementScore: function (value) {
 		this.score += value;
@@ -107,7 +206,11 @@ const Player = {
 }
 
 const Game = {
-
+	init: function () {
+		Board.init();
+		Draw.init();
+		Board.generateBox();
+	},
 	reset: function () {
 		Player.resetScore();
 		Board.init();
@@ -140,6 +243,4 @@ document.onkeydown = function (e) {
 	}
 }
 
-Board.init();
-Draw.init();
-Board.generateBox();
+Game.init();
