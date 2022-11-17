@@ -21,6 +21,9 @@ const Board = {
 			}
 		}
 	},
+	getDesk: function(){
+		return this._desk;
+	},
 	generateBox: function () {
 		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value === 0);
 
@@ -60,42 +63,101 @@ const Board = {
 		}
 	},
 	mergeBoxes: function (direction) {
-		// for (let i = 0; i < SIZE; i++) {
-		// 	// [SIZE-i]
-		// 	for (let j = 0; j < SIZE; j++) {
-		// 		const substractPosition = this.getDirectionCoords(direction);
-		// 		if (this._desk[i][j].value === this._desk[i+substractPosition.x][j+substractPosition.y].value && this._desk[i][j].value) {
-		// 			// merge
-		// 			const consumerBox = this._desk[i][j];
-		// 			const producerBox = this._desk[i+substractPosition.x][j+substractPosition.y];
-		// 		}
-		// 	}
-		// }
 
-		console.log(this._desk);
-		const columnBoxes = [];
-		// console.log(this._desk[0]);
-		const hgfg = this.getHgfg(direction);
-		console.log(hgfg);
+
+		
 		// for (let i = 0; i < SIZE; i++) { // ak ideme Zhora dole, tak otocime pole?
 		// 	columnBoxes.push(this._desk[0][i]);
 		// }
 
 		// for (let s = 0; s < SIZE; s++) {
-			const s = 0;
+		// 	const s = 0;
 
-			// for (let i = hgfg.start; i > hgfg.end; i+=hgfg.kremes) {
-			for (let i = hgfg.start; i > hgfg.end; i+=hgfg.kremes) {
-				// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+		// 	// for (let i = hgfg.start; i > hgfg.end; i+=hgfg.kremes) {
+		// 	for (let i = hgfg.start; i > hgfg.end; i+=hgfg.kremes) {
+		// 		// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+		// 			columnBoxes.push(this._desk[s][i]);
+		// 		// } else {
+		// 		// 	columnBoxes.push(this._desk[i][s]);
+		// 		// }
+		// 		// columnBoxes.push(this._desk[0][i]);
+		// 	}
+
+		// 	let filteredColumnBoxes = columnBoxes.filter(box => box.value !== 0);
+		// 	console.log(filteredColumnBoxes);
+		// 	for (let j = 0; j < filteredColumnBoxes.length - 1; j++) {
+		// 		if (filteredColumnBoxes[j].value === filteredColumnBoxes[j+1].value) {
+		// 			filteredColumnBoxes[j].value *= 2;
+		// 			filteredColumnBoxes.splice(j+1, 1);
+		// 			console.log(filteredColumnBoxes);
+		// 		}
+		// 	}
+
+		// 	if (filteredColumnBoxes.length) {
+		// 		for (let j = hgfg.start; j > hgfg.end; j+=hgfg.kremes) {
+		// 			if (j < filteredColumnBoxes.length) {
+		// 				// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+		// 					this._desk[s][j].value = filteredColumnBoxes[j].value; // fix
+		// 				// } else {
+		// 				// 	this._desk[j][s].value = filteredColumnBoxes[j].value; // fix
+		// 				// }
+
+		// 				// this._desk[0][j].value = filteredColumnBoxes[j].value; // fix
+		// 			} else {
+		// 				// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
+		// 					this._desk[s][j].value = 0; // fix
+		// 				// } else {
+		// 				// 	this._desk[j][s].value = 0; // fix
+		// 				// }
+		// 				// this._desk[0][j].value = 0; // fix
+		// 			}
+		// 		}
+		// 		// for (let j = 0; j < SIZE; j++) {
+		// 		// 	if (j < filteredColumnBoxes.length) {
+		// 		// 		this._desk[0][j].value = filteredColumnBoxes[j].value; // fix
+		// 		// 	} else {
+		// 		// 		this._desk[0][j].value = 0; // fix
+		// 		// 	}
+		// 		// }
+		// 	}
+
+		// // }
+		// console.log(this._desk);
+
+		for(let s = 0;s < SIZE; s++){
+			console.log(this._desk);
+			const columnBoxes = [];
+
+			// const s = 0;
+
+			if(direction === DIRECTION.UP){
+				for (let i = 0; i < SIZE; i++) {
 					columnBoxes.push(this._desk[s][i]);
-				// } else {
-				// 	columnBoxes.push(this._desk[i][s]);
-				// }
-				// columnBoxes.push(this._desk[0][i]);
+					console.log(this._desk[s][i]);
+				}	
+			}else if(direction === DIRECTION.DOWN){
+				for (let i = SIZE-1; i >= 0; i--) {
+					columnBoxes.push(this._desk[s][i]);
+					
+				}
+			}else if(direction === DIRECTION.LEFT){
+				for (let i = 0; i < SIZE; i++) {
+					columnBoxes.push(this._desk[i][s]);
+				}					
+			}else if(direction === DIRECTION.RIGHT){
+				for (let i = SIZE-1; i >= 0; i--) {
+					columnBoxes.push(this._desk[i][s]);
+				}						
 			}
+		
 
 			let filteredColumnBoxes = columnBoxes.filter(box => box.value !== 0);
-			console.log(filteredColumnBoxes);
+
+			for (let j = 0; j < filteredColumnBoxes.length; j++) {
+				console.log(filteredColumnBoxes[j].value);
+			}
+
+
 			for (let j = 0; j < filteredColumnBoxes.length - 1; j++) {
 				if (filteredColumnBoxes[j].value === filteredColumnBoxes[j+1].value) {
 					filteredColumnBoxes[j].value *= 2;
@@ -104,39 +166,80 @@ const Board = {
 				}
 			}
 
-			if (filteredColumnBoxes.length) {
-				for (let j = hgfg.start; j > hgfg.end; j+=hgfg.kremes) {
-					if (j < filteredColumnBoxes.length) {
-						// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
-							this._desk[s][j].value = filteredColumnBoxes[j].value; // fix
-						// } else {
-						// 	this._desk[j][s].value = filteredColumnBoxes[j].value; // fix
-						// }
 
-						// this._desk[0][j].value = filteredColumnBoxes[j].value; // fix
-					} else {
-						// if (direction === DIRECTION.UP || DIRECTION === DIRECTION.DOWN) {
-							this._desk[s][j].value = 0; // fix
-						// } else {
-						// 	this._desk[j][s].value = 0; // fix
-						// }
-						// this._desk[0][j].value = 0; // fix
+			for(let i=filteredColumnBoxes.length;i<SIZE;i++) {
+				filteredColumnBoxes.push(this.getEmptyBox(0,0));
+			}
+
+			
+			if (filteredColumnBoxes.length>0) {
+				if(direction === DIRECTION.UP){
+					for (let j = 0; j < SIZE; j++) {
+						this._desk[s][j].value = filteredColumnBoxes[j].value;
 					}
 				}
-				// for (let j = 0; j < SIZE; j++) {
-				// 	if (j < filteredColumnBoxes.length) {
-				// 		this._desk[0][j].value = filteredColumnBoxes[j].value; // fix
-				// 	} else {
-				// 		this._desk[0][j].value = 0; // fix
-				// 	}
-				// }
+				if(direction === DIRECTION.DOWN){
+					for (let j = SIZE-1; j >= 0; j--) {
+						this._desk[s][j].value = filteredColumnBoxes[SIZE-1-j].value;
+					}
+				}
+				if(direction === DIRECTION.LEFT){
+					for (let j = 0; j < SIZE; j++) {
+						this._desk[j][s].value = filteredColumnBoxes[j].value;
+					}
+				}
+				if(direction === DIRECTION.RIGHT){
+					for (let j = SIZE-1; j >= 0; j--) {
+						this._desk[j][s].value = filteredColumnBoxes[SIZE-1-j].value;
+					}
+				}
 			}
+			
+
+
+
+
+			// if (filteredColumnBoxes.length>0) {
+
+				
+			// 	for (let j = 0; j < SIZE; j++) {
+			// 		console.log(filteredColumnBoxes);
+			// 		if(direction === DIRECTION.UP || direction === DIRECTION.DOWN){
+			// 			this._desk[s][j].value = filteredColumnBoxes[j].value;
+					
+			// 			// if (j < filteredColumnBoxes.length) {
+			// 			// 	this._desk[s][j].value = filteredColumnBoxes[j].value; // fix
+			// 			// } else {
+							
+			// 			// 	this._desk[s][j].value = 0; // fix
+			// 			// }
+
+			// 		}
+			// 		// else{
+			// 		// 	console.log(filteredColumnBoxes);
+			// 		// 	if (j < SIZE - filteredColumnBoxes.length) {
+			// 		// 		this._desk[s][j].value = 0; 
+			// 		// 	} else {
+			// 		// 		console.log(j - (SIZE - filteredColumnBoxes.length));	
+			// 		// 		console.log(filteredColumnBoxes[ j - (SIZE - filteredColumnBoxes.length) ].value);		
+			// 		// 		this._desk[s][j].value = filteredColumnBoxes[ j - (SIZE - filteredColumnBoxes.length) ].value;// fix
+			
+			// 		// 	}
+			// 		// }
+					
+			// 	}
+			// }
 
 		// }
 		console.log(this._desk);
+	}
 
 	}
 }
+
+
+
+
 
 
 const Draw = {
@@ -159,31 +262,41 @@ const Draw = {
 	drawBox: function (box) {
 		const pixelPosition = this.calculatePixelPosition(box.x, box.y);
 		// console.log(pixelPosition);
-		const boxElement = this.createBox(pixelPosition.x, pixelPosition.y);
+		const boxElement = this.createBox({x: pixelPosition.x, y: pixelPosition.y, value: box.value});
 
 		boardElement.appendChild(boxElement);
 
 		// console.log(boxElement);
 		// console.log(box);
 	},
-	createBox: function (x, y) {
-		const box = document.createElement('div');
-		box.classList.add('box');
-		box.classList.add('box-3');
-		box.style.left = x + 'px';
-		box.style.top = y + 'px';
 
-		const boxNumber = document.createElement('span');
-		boxNumber.classList.add('boxNumber');
-		boxNumber.textContent = 3;
-		box.appendChild(boxNumber);
 
-		// console.log(box);
-		return box;
-	},
-	updateBox: function (x, y, value) {
+	createBox: function (box) {
+        const boxEl = document.createElement('div');
+        boxEl.classList.add('box');
+        boxEl.classList.add(`box-${box.value}`);
+        boxEl.style.left = box.x + 'px';
+        boxEl.style.top = box.y + 'px';
 
-	}
+        const boxNumber = document.createElement('span');
+        boxNumber.classList.add('boxNumber');
+        boxNumber.textContent = box.value;
+        boxEl.appendChild(boxNumber);
+
+        return boxEl;
+    },
+	drawDesk: function () {
+        Draw.init();
+        const desk = Board.getDesk();
+
+        for (let i = 0; i < SIZE; i++) {
+            for (let j = 0; j < SIZE; j++) {
+                if (desk[i][j].value) {
+                    this.drawBox(desk[i][j]);
+                }
+            }
+        }
+    }
 }
 
 const Player = {
@@ -196,6 +309,7 @@ const Player = {
 
 
 		Board.generateBox(); // last
+		Draw.drawDesk();
 	},
 	incrementScore: function (value) {
 		this.score += value;
