@@ -9,8 +9,8 @@
   margin: 0 auto;
 
   background-image: 
-  repeating-linear-gradient(90deg, blue 0 1px, transparent 0px 133px),
-  repeating-linear-gradient(0deg, blue 0 1px, transparent 0px 133px);
+  repeating-linear-gradient(90deg, blue 0 1px, transparent 0px 133.333px),
+  repeating-linear-gradient(0deg, blue 0 1px, transparent 0px 133.333px);
 
   /* gap: 20px; */
 }
