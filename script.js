@@ -21,7 +21,10 @@ const Board = {
 			}
 		}
 	},
-	generateBox: function () {
+	getDesk: function() {
+		return this._desk;
+	},
+	generateBox: function () { // urobime tu counter, ktory pocita kolko krat zasebou bol dany smer. Ak mame zasebou 2x dole, tak uz nebude generovat novy box - musi sa ist do inej strany
 		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value === 0);
 
 		if (freeTiles.length === 0) {
@@ -142,13 +145,6 @@ const Board = {
 const Draw = {
 	init: function () {
 		boardElement.innerHTML = "";
-		// for (let i = 0; i < SIZE; i++) {
-		// 	for (let j = 0; j < SIZE; j++) {
-		// 		const box = document.createElement('div');
-		// 		box.classList.add('box');
-		// 		// boardElement.appendChild(box);
-		// 	}
-		// }
 	},
 	calculatePixelPosition: function (x, y) {
 		const left = boardElement.getBoundingClientRect().width / SIZE * x;
@@ -158,31 +154,35 @@ const Draw = {
 	},
 	drawBox: function (box) {
 		const pixelPosition = this.calculatePixelPosition(box.x, box.y);
-		// console.log(pixelPosition);
-		const boxElement = this.createBox(pixelPosition.x, pixelPosition.y);
+		const boxElement = this.createBox({x: pixelPosition.x, y: pixelPosition.y, value: box.value});
 
 		boardElement.appendChild(boxElement);
-
-		// console.log(boxElement);
-		// console.log(box);
 	},
-	createBox: function (x, y) {
-		const box = document.createElement('div');
-		box.classList.add('box');
-		box.classList.add('box-3');
-		box.style.left = x + 'px';
-		box.style.top = y + 'px';
+	createBox: function (box) {
+		const boxEl = document.createElement('div');
+		boxEl.classList.add('box');
+		boxEl.classList.add(`box-${box.value}`);
+		boxEl.style.left = box.x + 'px';
+		boxEl.style.top = box.y + 'px';
 
 		const boxNumber = document.createElement('span');
 		boxNumber.classList.add('boxNumber');
-		boxNumber.textContent = 3;
-		box.appendChild(boxNumber);
+		boxNumber.textContent = box.value;
+		boxEl.appendChild(boxNumber);
 
-		// console.log(box);
-		return box;
+		return boxEl;
 	},
-	updateBox: function (x, y, value) {
+	drawDesk: function () {
+		Draw.init();
+		const desk = Board.getDesk();
 
+		for (let i = 0; i < SIZE; i++) {
+			for (let j = 0; j < SIZE; j++) {
+				if (desk[i][j].value) {
+					this.drawBox(desk[i][j]);
+				}
+			}
+		}
 	}
 }
 
@@ -193,9 +193,8 @@ const Player = {
 
 
 		Board.mergeBoxes(direction);
-
-
 		Board.generateBox(); // last
+		Draw.drawDesk();
 	},
 	incrementScore: function (value) {
 		this.score += value;
