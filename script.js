@@ -291,10 +291,16 @@ const Game = {
 	reset: function () {
 		Player.resetScore();
 		// Board.init();
-		this.activeLevel = this.levels[0].id;
-		this.goal = this.levels[0].goal;
-		Board.loadLevel(this.levels[0].data);
+		console.log("reset");
+		console.log(this.activeLevel);
+		// this.activeLevel = this.levels[0].id;
+		// this.goal = this.levels[0].goal;
+		
+		Board.loadLevel(this.levels[this.activeLevel].data);
+
+		// Board.loadLevel(this.activeLevel.data);
 		Draw.init();
+		Draw.drawDesk();
 	},
 	lost: function () {
 		console.log('Game over');
