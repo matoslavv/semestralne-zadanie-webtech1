@@ -2,6 +2,21 @@ const boardElement = document.getElementById('board');
 
 const SIZE = 3;
 const BASE_VALUE = 3;
+// const BOARD_WIDTH = {
+// 	400: '400px',
+// 	700: '700px',
+// 	800: '800px',
+// 	1200: '1200px'
+// }
+
+// const BOARD_STYLING = {
+// 	3: {
+// 		400: {boxWidth: '133px', boxHeight: '130px', fontSize: '40px', repeating: '133.333px'}
+// 	},
+// 	4: {
+// 		400: {boxWidth: '99px', boxHeight: '99px', fontSize: '32px', repeating: '99.333px'}
+// 	},
+// }
 
 const DIRECTION = {
 	UP: 'UP',
@@ -40,29 +55,72 @@ const Board = {
 		}
 		return false;
 	},
-	generateBox: function () {
-		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value === 0);
+	_getFreeTiles: function () {
+		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value == 0);
 
-		if (freeTiles.length === 0) {
+		if (freeTiles.length === 0 && !Board._isMergableBox()) {
 			Game.lost();
 			return;
 		}
-
-		const selectedTile = freeTiles[Math.floor(Math.random()*freeTiles.length)];
-		this._desk[selectedTile.x][selectedTile.y].value = BASE_VALUE;
-
-		Draw.drawBox(this._desk[selectedTile.x][selectedTile.y]);
+		return freeTiles;
 	},
-	getDirectionCoords: function (direction) {
-		switch (direction) {
-			case DIRECTION.UP:
-				return {x: 0, y: -1}
-			case DIRECTION.DOWN:
-				return {x: 0, y: 1};
-			case DIRECTION.LEFT:
-				return {x: 1, y: 0};
-			case DIRECTION.RIGHT:
-				return {x: -1, y: 0};
+	generateBox: function () {
+		const freeTiles = this._getFreeTiles();
+		const selectedTile = freeTiles[Math.floor(Math.random()*freeTiles.length)];
+		if (selectedTile) {
+			this._desk[selectedTile.x][selectedTile.y].value = BASE_VALUE;
+			Draw.drawBox(this._desk[selectedTile.x][selectedTile.y]);
+		}
+	},
+	_isMergableBox: function () {
+		for (let i = 0; i < SIZE; i++) {
+			for (let j = 0; j < SIZE; j++) {
+				const t = this.getNeighbours(i, j);
+				for (let k = 0; k < t.length; k++) {
+					if (this._desk[i][j].value === this._desk[t[k][0]][t[k][1]].value) {
+						return true;
+					}
+				}
+			}
+		}
+	},
+	getNeighbours: function (x,y) { // test it
+		const coordsNeighbours = [];
+		if (x == 0 && y == 0) {
+			coordsNeighbours.push([x+1, y], [x, y+1]);
+			return coordsNeighbours;
+		}
+		else if (x == SIZE-1 && y == 0) {
+			coordsNeighbours.push([x-1, y], [x, y+1]);
+			return coordsNeighbours;
+		}
+		else if (x == 0 && y == SIZE-1) {
+			coordsNeighbours.push([x+1, y], [x, y-1]);
+			return coordsNeighbours;
+		}
+		else if (x == SIZE-1 && y == SIZE-1) {
+			coordsNeighbours.push([x, y-1], [x-1, y]);
+			return coordsNeighbours;
+		}
+		else if (y == 0 && (x !== 0 || x !== SIZE-1)) {
+			coordsNeighbours.push([x, y+1], [x-1, y], [x+1, y]);
+			return coordsNeighbours;
+		}
+		else if (y == SIZE-1 && (x !== 0 || x !== SIZE-1)) {
+			coordsNeighbours.push([x, y-1], [x-1, y], [x+1, y]);
+			return coordsNeighbours;
+		}
+		else if (x == 0 && (y !== 0 || y !== SIZE-1)) {
+			coordsNeighbours.push([x, y-1], [x, y+1], [x+1, y]);
+			return coordsNeighbours;
+		}
+		else if (x == SIZE-1 && (y !== 0 || y !== SIZE-1)) {
+			coordsNeighbours.push([x, y-1], [x, y+1], [x-1, y]);
+			return coordsNeighbours;
+		}
+		else {
+			coordsNeighbours.push([x, y-1], [x-1, y], [x+1, y], [x, y+1]);
+			return coordsNeighbours;
 		}
 	},
 	getEmptyBox: function (x, y) {
@@ -78,7 +136,6 @@ const Board = {
 			if (direction === DIRECTION.UP) {
 				for (let i = 0; i < SIZE; i++) {
 					columnBoxes.push(this._desk[s][i]);
-					console.log(this._desk[s][i]);
 				}
 			} else if (direction === DIRECTION.DOWN) {
 				for (let i = SIZE-1; i >= 0; i--) {
@@ -104,7 +161,7 @@ const Board = {
 				if (filteredColumnBoxes[j].value === filteredColumnBoxes[j+1].value) {
 					filteredColumnBoxes[j].value *= 2;
 					filteredColumnBoxes.splice(j+1, 1);
-					console.log(filteredColumnBoxes);
+					// console.log(filteredColumnBoxes);
 				}
 			}
 
@@ -181,20 +238,28 @@ const Draw = {
 				}
 			}
 		}
-	}
+	},
+	// getBoxSize: function (size, resolution) {
+	// 	switch (size) {
+	// 		case BOARD_WIDTH[400]:
+	// 			return {boxWidth: '133px', boxHeight: '130px', repeating: '133.333px'} // 99.333px repeating 4x4
+	// 		case BOARD_WIDTH[700]:
+	// 			return {boxWidth: '133px', boxHeight: '130px', repeating: '175px'}
+
+	// 	}
+	// }
 }
 
 const Player = {
 	score: 0,
 	makeMove: function (direction) {
-		console.log(direction);
-
 		Board.mergeBoxes(direction);
 
-		if (!Board.isMoved()) {
+		if (!Board.isMoved() && !Board._getFreeTiles()) {
 			return;
 		}
-		Board.generateBox(); // last
+
+		Board.generateBox();
 		Draw.drawDesk();
 	},
 	incrementScore: function (value) {
@@ -206,6 +271,9 @@ const Player = {
 }
 
 const Game = {
+	activeLevel: null,
+	levels: [],
+	tutorial: "",
 	init: function () {
 		Board.init();
 		Draw.init();
@@ -223,24 +291,74 @@ const Game = {
 	win: function () {
 		console.log('You won');
 		this.reset();
+	},
+	loadData: function () {
+		fetch('./data.json')
+			.then(res => res.json())
+			.then(data => {
+				if (data) {
+					this.tutorial = data.tutorial;
+					this.levels = data.levels;
+				}
+				console.log(data);
+			});
+	},
+	loadSave: function () {
+		const gameSave = localStorage.getItem('game-save') || this.levels[0];
+		console.log(gameSave);
+	},
+	removeSave: function () {
+		localStorage.removeItem('game-save');
 	}
 }
 
-document.onkeydown = function (e) {
+window.addEventListener('keydown', (e) => {
 	switch (e.key) {
 		case "ArrowLeft":
+		case "Left":
+		case "a":
 			Player.makeMove(DIRECTION.LEFT);
         	break;
    		case "ArrowRight":
+   		case "Right":
+   		case "d":
 			Player.makeMove(DIRECTION.RIGHT);
 	        break;
     	case "ArrowUp":
+    	case "UP":
+    	case "w":
 			Player.makeMove(DIRECTION.UP);
     	    break;
     	case "ArrowDown":
+    	case "Down":
+    	case "s":
 			Player.makeMove(DIRECTION.DOWN);
         	break;
 	}
-}
+});
 
 Game.init();
+
+// Game.loadData();
+// Game.loadSave();
+
+console.log(Board.getDesk(), Player.score, Game.activeLevel);
+
+// Save state before closing tab/game
+ window.addEventListener('beforeunload', function (e) {
+	e.preventDefault();
+	// e.returnValue = '';
+	// this.localStorage.setItem('game-save', 'kks')
+});
+
+// PWA
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/serviceWorker.js")
+      .then(res => console.log("service worker registered"))
+      .catch(err => console.log("service worker not registered", err))
+  })
+}
+
+console.log(boardElement.style.width);
