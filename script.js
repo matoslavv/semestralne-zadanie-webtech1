@@ -32,6 +32,19 @@ const Board = {
 	getDesk: function() {
 		return this._desk;
 	},
+	loadLevel: function (desk) {
+		// this._desk = desk;
+		for (let i = 0; i < SIZE; i++) {
+			this._desk[i] = [];
+			for (let j = 0; j < SIZE; j++) {
+				this._desk[i][j] = this.getEmptyBox(i, j);
+				this._desk[i][j].value = desk[i][j].value;
+			}
+		}
+		console.log(desk);
+		this._saveOldState();
+		Draw.drawDesk();
+	},
 	_saveOldState: function () {
 		this._oldDesk = JSON.parse(JSON.stringify(this._desk));
 	},
@@ -46,7 +59,7 @@ const Board = {
 		return false;
 	},
 	_getFreeTiles: function () {
-		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value == 0);
+		const freeTiles = this._desk.flatMap(x => x).filter((box) => box.value === 0);
 
 		if (freeTiles.length === 0 && !Board._isMergableBox()) {
 			Game.lost();
@@ -73,6 +86,7 @@ const Board = {
 				}
 			}
 		}
+		return false
 	},
 	getNeighbours: function (x,y) { // test it
 		const coordsNeighbours = [];
@@ -245,6 +259,8 @@ const Player = {
 	makeMove: function (direction) {
 		Board.mergeBoxes(direction);
 
+		console.log(!Board.isMoved());
+		console.log(!Board._getFreeTiles());
 		if (!Board.isMoved() && !Board._getFreeTiles()) {
 			return;
 		}
@@ -264,11 +280,12 @@ const Game = {
 	activeLevel: null,
 	levels: [],
 	tutorial: "",
+	MAX_VALUE: 3072,
 	init: function () {
-		Board.init();
+		// Board.init();
+		this.loadData();
 		Draw.init();
 		// Board.generateBox();
-		this.loadData();
 	},
 	reset: function () {
 		Player.resetScore();
@@ -290,11 +307,9 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
-					Board._desk = data.levels[0].data;
 					console.log(data.levels[0].data);
-					Draw.drawDesk();
+					Board.loadLevel(data.levels[0].data);
 				}
-				console.log(data);
 			});
 	},
 	loadSave: function () {
@@ -334,12 +349,14 @@ window.addEventListener('keydown', (e) => {
 	}
 });
 
+
+
 Game.init();
 
 // Game.loadData();
 // Game.loadSave();
 
-console.log(Board.getDesk(), Player.score, Game.activeLevel);
+// console.log(Board.getDesk(), Player.score, Game.activeLevel);
 
 // Save state before closing tab/game
  window.addEventListener('beforeunload', function (e) {
