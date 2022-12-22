@@ -2,21 +2,11 @@ const boardElement = document.getElementById('board');
 
 const SIZE = 3;
 const BASE_VALUE = 3;
-// const BOARD_WIDTH = {
-// 	400: '400px',
-// 	700: '700px',
-// 	800: '800px',
-// 	1200: '1200px'
-// }
 
-// const BOARD_STYLING = {
-// 	3: {
-// 		400: {boxWidth: '133px', boxHeight: '130px', fontSize: '40px', repeating: '133.333px'}
-// 	},
-// 	4: {
-// 		400: {boxWidth: '99px', boxHeight: '99px', fontSize: '32px', repeating: '99.333px'}
-// 	},
-// }
+const BOARD_STYLING = {
+	3: {boxWidth: '133px', boxHeight: '130px', fontSize: '40px', repeating: '133.333px'},
+	4: {boxWidth: '99px', boxHeight: '99px', fontSize: '32px', repeating: '99.333px'}
+}
 
 const DIRECTION = {
 	UP: 'UP',
@@ -230,7 +220,7 @@ const Draw = {
 	drawDesk: function () {
 		Draw.init();
 		const desk = Board.getDesk();
-
+		console.log(desk);
 		for (let i = 0; i < SIZE; i++) {
 			for (let j = 0; j < SIZE; j++) {
 				if (desk[i][j].value) {
@@ -277,7 +267,8 @@ const Game = {
 	init: function () {
 		Board.init();
 		Draw.init();
-		Board.generateBox();
+		// Board.generateBox();
+		this.loadData();
 	},
 	reset: function () {
 		Player.resetScore();
@@ -299,12 +290,18 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
+					Board._desk = data.levels[0].data;
+					console.log(data.levels[0].data);
+					Draw.drawDesk();
 				}
 				console.log(data);
 			});
 	},
 	loadSave: function () {
 		const gameSave = localStorage.getItem('game-save') || this.levels[0];
+
+		Board._desk = gameSave;
+		Draw.drawDesk();
 		console.log(gameSave);
 	},
 	removeSave: function () {
@@ -360,5 +357,3 @@ if ("serviceWorker" in navigator) {
       .catch(err => console.log("service worker not registered", err))
   })
 }
-
-console.log(boardElement.style.width);
