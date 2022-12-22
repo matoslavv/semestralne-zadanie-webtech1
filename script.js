@@ -33,7 +33,6 @@ const Board = {
 		return this._desk;
 	},
 	loadLevel: function (desk) {
-		// this._desk = desk;
 		for (let i = 0; i < SIZE; i++) {
 			this._desk[i] = [];
 			for (let j = 0; j < SIZE; j++) {
@@ -41,7 +40,6 @@ const Board = {
 				this._desk[i][j].value = desk[i][j].value;
 			}
 		}
-		console.log(desk);
 		this._saveOldState();
 		Draw.drawDesk();
 	},
@@ -259,9 +257,7 @@ const Player = {
 	makeMove: function (direction) {
 		Board.mergeBoxes(direction);
 
-		console.log(!Board.isMoved());
-		console.log(!Board._getFreeTiles());
-		if (!Board.isMoved() && !Board._getFreeTiles()) {
+		if (!Board._getFreeTiles() || !Board.isMoved()) {
 			return;
 		}
 
@@ -270,6 +266,10 @@ const Player = {
 	},
 	incrementScore: function (value) {
 		this.score += value;
+
+		if (this.score === Game.goal) {
+			Game.win();
+		}
 	},
 	resetScore: function () {
 		this.score = 0;
@@ -280,16 +280,17 @@ const Game = {
 	activeLevel: null,
 	levels: [],
 	tutorial: "",
-	MAX_VALUE: 3072,
+	goal: 0,
 	init: function () {
-		// Board.init();
 		this.loadData();
 		Draw.init();
-		// Board.generateBox();
 	},
 	reset: function () {
 		Player.resetScore();
-		Board.init();
+		// Board.init();
+		this.activeLevel = this.levels[0].id;
+		this.goal = this.levels[0].goal;
+		Board.loadLevel(this.levels[0].data);
 		Draw.init();
 	},
 	lost: function () {
@@ -298,7 +299,8 @@ const Game = {
 	},
 	win: function () {
 		console.log('You won');
-		this.reset();
+		// this.reset();
+		this.nextLevel();
 	},
 	loadData: function () {
 		fetch('./data.json')
@@ -307,10 +309,17 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
-					console.log(data.levels[0].data);
+					this.activeLevel = data.levels[0].id;
+					this.goal = data.levels[0].goal;
 					Board.loadLevel(data.levels[0].data);
 				}
 			});
+	},
+	nextLevel: function () {
+		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1);
+		this.activeLevel++;
+		this.goal = nextLevelData.goal;
+		Board.loadLevel(nextLevelData);
 	},
 	loadSave: function () {
 		const gameSave = localStorage.getItem('game-save') || this.levels[0];
