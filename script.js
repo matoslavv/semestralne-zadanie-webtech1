@@ -1,4 +1,6 @@
 const boardElement = document.getElementById('board');
+const levelValue = document.getElementById('level-value');
+const scoreValue = document.getElementById('score-value');
 
 const BASE_VALUE = 3;
 
@@ -249,13 +251,14 @@ const Player = {
 	},
 	setScore: function (value) {
 		this.score = value;
-
+		scoreValue.innerHTML = value;
 		if (this.score === Game.goal) {
 			Game.win();
 		}
 	},
 	resetScore: function () {
 		this.score = 0;
+		scoreValue.innerHTML = 0;
 	}
 }
 
@@ -267,10 +270,12 @@ const Game = {
 	init: function () {
 		this.loadData();
 		Draw.init();
+		scoreValue.innerHTML = 0;
 	},
 	reset: function () {
 		Player.resetScore();
 		this.activeLevel = this.levels[0].id;
+		levelValue.innerHTML = data.levels[0].id;
 		this.goal = this.levels[0].goal;
 		Board.init(this.levels[0].data, data.levels[0].size);
 		Draw.init();
@@ -291,17 +296,20 @@ const Game = {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
 					this.activeLevel = data.levels[0].id;
+					levelValue.innerHTML = data.levels[0].id;
+					Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
 					this.goal = data.levels[0].goal;
 					Board.init(data.levels[0].data, data.levels[0].size);
 				}
 			});
 	},
 	nextLevel: function () {
-		Player.setScore(0);
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
 		console.log(nextLevelData);
 		this.activeLevel++;
+		levelValue.innerHTML = this.activeLevel;
 		this.goal = nextLevelData.goal;
+		Player.setScore(Math.max(...nextLevelData.data.flatMap(x => x).map(x => x.value)));
 		Board.init(nextLevelData.data, nextLevelData.size);
 	},
 	loadSave: function () {
