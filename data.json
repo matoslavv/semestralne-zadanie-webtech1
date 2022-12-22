@@ -5,7 +5,7 @@
 			"id": 1,
 			"title": "Level 1",
 			"size": 3,
-			"goal": 3072,
+			"goal": 24,
 			"data": [
 						[{"x": 0,"y": 0,"value": 0}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 0}],
 						[{"x": 0,"y": 1,"value": 0}, {"x": 1,"y": 1,"value": 0}, {"x": 2,"y": 1,"value": 0}],

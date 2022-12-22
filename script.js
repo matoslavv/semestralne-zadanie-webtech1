@@ -257,6 +257,8 @@ const Player = {
 	makeMove: function (direction) {
 		Board.mergeBoxes(direction);
 
+		Player.setScore(Math.max(...Board.getDesk().flatMap(x => x).map(x => x.value)));
+		console.log(Board.getDesk().flatMap(x => x).map(x => x.value));
 		if (!Board._getFreeTiles() || !Board.isMoved()) {
 			return;
 		}
@@ -264,8 +266,9 @@ const Player = {
 		Board.generateBox();
 		Draw.drawDesk();
 	},
-	incrementScore: function (value) {
-		this.score += value;
+	setScore: function (value) {
+		console.log(value);
+		this.score = value;
 
 		if (this.score === Game.goal) {
 			Game.win();
@@ -316,10 +319,11 @@ const Game = {
 			});
 	},
 	nextLevel: function () {
-		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1);
+		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
+		console.log(nextLevelData);
 		this.activeLevel++;
 		this.goal = nextLevelData.goal;
-		Board.loadLevel(nextLevelData);
+		Board.loadLevel(nextLevelData.data);
 	},
 	loadSave: function () {
 		const gameSave = localStorage.getItem('game-save') || this.levels[0];
