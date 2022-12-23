@@ -248,6 +248,7 @@ const Player = {
 
 		Board.generateBox();
 		Draw.drawDesk();
+		Game.saveGame();
 	},
 	setScore: function (value) {
 		this.score = value;
@@ -256,10 +257,6 @@ const Player = {
 			Game.win();
 		}
 	},
-	resetScore: function () {
-		this.score = 0;
-		scoreValue.innerHTML = 0;
-	}
 }
 
 const Game = {
@@ -270,15 +267,13 @@ const Game = {
 	init: function () {
 		this.loadData();
 		Draw.init();
-		scoreValue.innerHTML = 0;
 	},
 	reset: function () {
-		Player.resetScore();
-		this.activeLevel = this.levels[0].id;
-		levelValue.innerHTML = data.levels[0].id;
+		this.setLevel(this.levels[0].id);
 		this.goal = this.levels[0].goal;
-		Board.init(this.levels[0].data, data.levels[0].size);
-		Draw.init();
+		Player.setScore(Math.max(...this.levels[0].data.flatMap(x => x).map(x => x.value)));
+		Board.init(this.levels[0].data, this.levels[0].size);
+		this.saveGame();
 	},
 	lost: function () {
 		console.log('Game over');
@@ -288,6 +283,10 @@ const Game = {
 		console.log('You won');
 		this.nextLevel();
 	},
+	setLevel: function (value) {
+		this.activeLevel = value;
+		levelValue.innerHTML = value;
+	},
 	loadData: function () {
 		fetch('./data.json')
 			.then(res => res.json())
@@ -295,29 +294,44 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
-					this.activeLevel = data.levels[0].id;
-					levelValue.innerHTML = data.levels[0].id;
-					Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
-					this.goal = data.levels[0].goal;
-					Board.init(data.levels[0].data, data.levels[0].size);
+					// this.activeLevel = data.levels[0].id;
+					// levelValue.innerHTML = data.levels[0].id;
+					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
+					// this.goal = data.levels[0].goal;
+					// Board.init(data.levels[0].data, data.levels[0].size);
 				}
-			});
+			}).then(() => this.loadSave());
 	},
 	nextLevel: function () {
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
-		console.log(nextLevelData);
-		this.activeLevel++;
-		levelValue.innerHTML = this.activeLevel;
+		this.setLevel(++this.activeLevel);
 		this.goal = nextLevelData.goal;
 		Player.setScore(Math.max(...nextLevelData.data.flatMap(x => x).map(x => x.value)));
 		Board.init(nextLevelData.data, nextLevelData.size);
+		this.saveGame();
 	},
 	loadSave: function () {
-		const gameSave = localStorage.getItem('game-save') || this.levels[0];
-
-		Board._desk = gameSave;
-		Draw.drawDesk();
+		const gameSave = JSON.parse(localStorage.getItem('game-save')) || this.levels[0];
 		console.log(gameSave);
+
+		this.setLevel(gameSave.id);
+		this.goal = gameSave.goal;
+		Board.init(gameSave.data, gameSave.size);
+		console.log(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
+		Player.setScore(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
+	},
+	saveGame: function () {
+		const gameSave = {
+			score: Player.score,
+			id: this.activeLevel,
+			title: "Level " + this.activeLevel,
+			size: Board.size,
+			goal: this.goal,
+			data: Board.getDesk(),
+		}
+
+		localStorage.setItem('game-save', JSON.stringify(gameSave));
+		console.log(JSON.parse(localStorage.getItem('game-save')));
 	},
 	removeSave: function () {
 		localStorage.removeItem('game-save');
@@ -349,14 +363,7 @@ window.addEventListener('keydown', (e) => {
 	}
 });
 
-
-
 Game.init();
-
-// Game.loadData();
-// Game.loadSave();
-
-// console.log(Board.getDesk(), Player.score, Game.activeLevel);
 
 // Save state before closing tab/game
  window.addEventListener('beforeunload', function (e) {
@@ -373,4 +380,13 @@ if ("serviceWorker" in navigator) {
       .then(res => console.log("service worker registered"))
       .catch(err => console.log("service worker not registered", err))
   })
+}
+
+
+// What kind of device is used
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+  // Implement sensor
+  console.log('mobile');
+}else{
+  console.log('desktop');
 }
