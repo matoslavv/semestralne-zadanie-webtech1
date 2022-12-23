@@ -294,11 +294,6 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
-					// this.activeLevel = data.levels[0].id;
-					// levelValue.innerHTML = data.levels[0].id;
-					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
-					// this.goal = data.levels[0].goal;
-					// Board.init(data.levels[0].data, data.levels[0].size);
 				}
 			}).then(() => this.loadSave());
 	},
