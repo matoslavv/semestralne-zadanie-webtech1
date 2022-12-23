@@ -15,18 +15,24 @@ const assets = [
 ]
 
 // Don't cache till app is done
-// self.addEventListener("install", installEvent => {
-//   installEvent.waitUntil(
-//     caches.open(static3hree).then(cache => {
-//       cache.addAll(assets)
-//     })
-//   )
-// })
+self.addEventListener("install", function(installEvent) {
+  installEvent.waitUntil(
+    caches.open(static3hree).then(cache => {
+      cache.addAll(assets)
+    })
+  )
+});
 
-// self.addEventListener("fetch", fetchEvent => {
-//   fetchEvent.respondWith(
-//     caches.match(fetchEvent.request).then(res => {
-//       return res || fetch(fetchEvent.request)
-//     })
-//   )
-// })
+self.addEventListener('activate', function(event){
+    console.log("service worker activated", event)
+});
+
+self.addEventListener("fetch", function(fetchEvent) {
+  fetchEvent.respondWith(
+    caches.match(fetchEvent.request).then(res => {
+      return res || fetch(fetchEvent.request)
+    })
+  )
+});
+
+

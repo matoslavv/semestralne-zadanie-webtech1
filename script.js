@@ -309,11 +309,6 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
-					// this.activeLevel = data.levels[0].id;
-					// levelValue.innerHTML = data.levels[0].id;
-					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
-					// this.goal = data.levels[0].goal;
-					// Board.init(data.levels[0].data, data.levels[0].size);
 				}
 			}).then(() => this.loadSave());
 	},
@@ -407,7 +402,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
   // Implement sensor
   console.log('mobile');
 
-	gyro_button.style.visibility = 'visible';	
+	gyro_button.style.visibility = 'visible';
   	let is_running = false;
   	gyro_button.onclick = function(e) {
 		e.preventDefault();
@@ -443,28 +438,40 @@ function handleMotion(event) {
 		Player.makeMove(DIRECTION.DOWN);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;     
-          }, 650); 
+            isMoving = false;
+          }, 650);
 
     } else if(event.rotationRate.alpha<-150 && !isMoving){
 		Player.makeMove(DIRECTION.UP);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;    
+            isMoving = false;
           }, 650);
 
     }else if(event.rotationRate.beta<-150 && !isMoving){
 		Player.makeMove(DIRECTION.LEFT);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;          
+            isMoving = false;
           }, 650);
 
     }else if(event.rotationRate.beta>150 && !isMoving){
 		Player.makeMove(DIRECTION.RIGHT);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;       
+            isMoving = false;
           }, 650);
     };
 }
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevents the default mini-infobar or install dialog from appearing on mobile
+  e.preventDefault();
+  // Save the event because you'll need to trigger it later.
+  deferredPrompt = e;
+  // Show your customized install prompt for your PWA
+  // Your own UI doesn't have to be a single element, you
+  // can have buttons in different locations, or wait to prompt
+  // as part of a critical journey.
+  showInAppInstallPromotion();
+});
