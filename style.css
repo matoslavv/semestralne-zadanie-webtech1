@@ -89,21 +89,6 @@
   height: 100%;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-header {
-  background: #0a542a;
-  margin-bottom: 30px;
-}
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -121,34 +106,6 @@ header {
   font-size: 30px;
   line-height: 40px;
   color: whitesmoke;
-}
-
-nav > ul li ul {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: 100%;
-  width: 100%;
-  z-index: 2000;
-}
-
-@media screen and (max-width: 768px) {
-  nav ul {
-    display: none;
-  }
-  label {
-    display: block;
-    background: #222;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-    top: 0px;
-  }
-  label:after {
-    content: "";
-  }
 }
 
 .nav-links {
@@ -182,10 +139,6 @@ nav > ul li ul {
 .nav-link:hover {
 }
 
-nav {
-  padding: 10px 0;
-}
-
 #level-wrap,
 #level-value,
 #score-wrap,
@@ -195,4 +148,60 @@ nav {
 
 #score-wrap {
   margin-left: 25px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Chivo Mono", monospace;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  padding: 10px 0;
+}
+
+header {
+  background: #0a542a;
+  margin-bottom: 30px;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("./assets/font/ChivoMono-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("./assets/font/ChivoMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("./assets/font/ChivoMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    display: none;
+  }
+  label {
+    display: block;
+    background: #222;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 0px;
+  }
+  label:after {
+    content: "";
+  }
 }
