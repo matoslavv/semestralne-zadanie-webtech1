@@ -1,6 +1,8 @@
 const boardElement = document.getElementById('board');
 const levelValue = document.getElementById('level-value');
 const scoreValue = document.getElementById('score-value');
+const goalValue = document.getElementById('goal-value');
+const gyro_button = document.getElementById("start_gyro");
 
 const BASE_VALUE = 3;
 
@@ -270,10 +272,19 @@ const Game = {
 	},
 	reset: function () {
 		this.setLevel(this.levels[0].id);
-		this.goal = this.levels[0].goal;
+		this.setGoal(this.levels[0].goal);
 		Player.setScore(Math.max(...this.levels[0].data.flatMap(x => x).map(x => x.value)));
 		Board.init(this.levels[0].data, this.levels[0].size);
 		this.saveGame();
+
+		console.log(this.activeLevel);
+
+		// this.activeLevel--;
+		// this.setLevel(this.levels[this.activeLevel].id);
+		// this.setGoal(this.levels[this.activeLevel].goal);
+		// Player.setScore(Math.max(...this.levels[this.activeLevel].data.flatMap(x => x).map(x => x.value)));
+		// Board.init(this.levels[this.activeLevel].data, this.levels[this.activeLevel].size);
+		// this.saveGame();
 	},
 	lost: function () {
 		console.log('Game over');
@@ -286,6 +297,10 @@ const Game = {
 	setLevel: function (value) {
 		this.activeLevel = value;
 		levelValue.innerHTML = value;
+	},
+	setGoal: function (value) {
+		this.goal = value;
+		goalValue.innerHTML = value;
 	},
 	loadData: function () {
 		fetch('./data.json')
@@ -305,7 +320,8 @@ const Game = {
 	nextLevel: function () {
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
 		this.setLevel(++this.activeLevel);
-		this.goal = nextLevelData.goal;
+		this.setGoal(nextLevelData.goal);
+		// this.goal = nextLevelData.goal;
 		Player.setScore(Math.max(...nextLevelData.data.flatMap(x => x).map(x => x.value)));
 		Board.init(nextLevelData.data, nextLevelData.size);
 		this.saveGame();
@@ -315,7 +331,9 @@ const Game = {
 		console.log(gameSave);
 
 		this.setLevel(gameSave.id);
-		this.goal = gameSave.goal;
+		console.log(gameSave.goal);
+		this.setGoal(gameSave.goal);
+		// this.goal = gameSave.goal;
 		Board.init(gameSave.data, gameSave.size);
 		console.log(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
 		Player.setScore(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
@@ -384,9 +402,69 @@ if ("serviceWorker" in navigator) {
 
 
 // What kind of device is used
+
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
   // Implement sensor
   console.log('mobile');
+
+	gyro_button.style.visibility = 'visible';	
+  	let is_running = false;
+  	gyro_button.onclick = function(e) {
+		e.preventDefault();
+
+		// Request permission for iOS 13+ devices
+		if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
+			DeviceMotionEvent.requestPermission();
+		}
+
+		if (is_running){
+			window.removeEventListener("devicemotion", handleMotion);
+			gyro_button.innerHTML = "Start gyro";
+			gyro_button.classList.add('btn-success');
+			gyro_button.classList.remove('btn-danger');
+			is_running = false;
+		}else{
+			window.addEventListener("devicemotion", handleMotion);
+			document.getElementById("start_gyro").innerHTML = "Stop gyro";
+			gyro_button.classList.remove('btn-success');
+			gyro_button.classList.add('btn-danger');
+			is_running = true;
+		}
+	};
 }else{
   console.log('desktop');
+}
+
+
+isMoving = false;
+function handleMotion(event) {
+
+    if(event.rotationRate.alpha>150 && !isMoving){
+		Player.makeMove(DIRECTION.DOWN);
+        isMoving = true;
+        setTimeout(function (){
+            isMoving = false;     
+          }, 650); 
+
+    } else if(event.rotationRate.alpha<-150 && !isMoving){
+		Player.makeMove(DIRECTION.UP);
+        isMoving = true;
+        setTimeout(function (){
+            isMoving = false;    
+          }, 650);
+
+    }else if(event.rotationRate.beta<-150 && !isMoving){
+		Player.makeMove(DIRECTION.LEFT);
+        isMoving = true;
+        setTimeout(function (){
+            isMoving = false;          
+          }, 650);
+
+    }else if(event.rotationRate.beta>150 && !isMoving){
+		Player.makeMove(DIRECTION.RIGHT);
+        isMoving = true;
+        setTimeout(function (){
+            isMoving = false;       
+          }, 650);
+    };
 }

@@ -151,6 +151,18 @@ nav > ul li ul {
   }
 }
 
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}
+
 .nav-links {
   margin: 0;
   padding: 0;
@@ -186,6 +198,8 @@ nav {
   padding: 10px 0;
 }
 
+#goal-wrap,
+#goal-value,
 #level-wrap,
 #level-value,
 #score-wrap,
@@ -193,6 +207,31 @@ nav {
   font-size: 20px;
 }
 
+#goal-wrap,
 #score-wrap {
   margin-left: 25px;
+}
+
+#start_gyro{
+  visibility: hidden;
+  margin: 0 auto;
+  position: relative;
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;  
+  margin: 5px 5px;
+  padding: 5px 10px;
+}
+
+.btn-success{
+  background-color: green;
+}
+
+.btn-danger{
+  background-color: red;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
 }
