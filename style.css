@@ -34,17 +34,14 @@
 }
 
 .box-3 {
-  /* background-color: #d0c953; */
   background-color: #eafdf2;
 }
 
 .box-6 {
-  /* background-color: #faec05; */
   background-color: #c1f8d9;
 }
 
 .box-12 {
-  /* background-color: #7adf6a; */
   background-color: #97f3bf;
 }
 
@@ -57,36 +54,30 @@
 }
 
 .box-96 {
-  /* background-color: #0d06a0; */
   background-color: #1be472;
 }
 
 .box-192 {
-  /* background-color: #bd4fbe; */
   background-color: #16ba5d;
   color: whitesmoke;
 }
 
 .box-384 {
-  /* background-color: #510652; */
   background-color: #119148;
   color: whitesmoke;
 }
 
 .box-768 {
-  /* background-color: #fc7305; */
   background-color: #13a050;
   color: whitesmoke;
 }
 
 .box-1536 {
-  /* background-color: #e02823; */
   background-color: #0c6834;
   color: whitesmoke;
 }
 
 .box-3072 {
-  /* background-color: #1b0302; */
   background-color: #073e1f;
   color: whitesmoke;
 }
@@ -114,6 +105,9 @@ header {
 }
 
 .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   max-width: 65%;
   margin: 0 auto;
   padding: 10px 10px;
@@ -170,7 +164,10 @@ nav > ul li ul {
   color: whitesmoke;
   text-align: center;
   line-height: 40px;
-  margin-left: 70px;
+}
+
+.nav-links > .nav-link:not(:last-child) {
+  margin-right: 30px;
 }
 
 .nav-link > a {
@@ -179,7 +176,6 @@ nav > ul li ul {
   display: block;
   outline: none;
   width: 100%;
-  text-decoration: none;
   color: whitesmoke;
 }
 
@@ -188,4 +184,15 @@ nav > ul li ul {
 
 nav {
   padding: 10px 0;
+}
+
+#level-wrap,
+#level-value,
+#score-wrap,
+#score-value {
+  font-size: 20px;
+}
+
+#score-wrap {
+  margin-left: 25px;
 }

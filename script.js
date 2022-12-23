@@ -1,6 +1,7 @@
 const boardElement = document.getElementById('board');
+const levelValue = document.getElementById('level-value');
+const scoreValue = document.getElementById('score-value');
 
-const SIZE = 3;
 const BASE_VALUE = 3;
 
 const BOARD_STYLING = {
@@ -18,24 +19,13 @@ const DIRECTION = {
 const Board = {
 	_desk: [],
 	_oldDesk: [],
-	init: function() {
+	size: 0,
+	init: function(desk, size) {
 		console.log('Board init');
-		for (let i = 0; i < SIZE; i++) {
+		this.size = size;
+		for (let i = 0; i < this.size; i++) {
 			this._desk[i] = [];
-			for (let j = 0; j < SIZE; j++) {
-				this._desk[i][j] = this.getEmptyBox(i, j);
-			}
-		}
-
-		this._saveOldState();
-	},
-	getDesk: function() {
-		return this._desk;
-	},
-	loadLevel: function (desk) {
-		for (let i = 0; i < SIZE; i++) {
-			this._desk[i] = [];
-			for (let j = 0; j < SIZE; j++) {
+			for (let j = 0; j < this.size; j++) {
 				this._desk[i][j] = this.getEmptyBox(i, j);
 				this._desk[i][j].value = desk[i][j].value;
 			}
@@ -43,12 +33,15 @@ const Board = {
 		this._saveOldState();
 		Draw.drawDesk();
 	},
+	getDesk: function() {
+		return this._desk;
+	},
 	_saveOldState: function () {
 		this._oldDesk = JSON.parse(JSON.stringify(this._desk));
 	},
 	isMoved: function() {
-		for (let i = 0; i < SIZE; i++) {
-			for (let j = 0; j < SIZE; j++) {
+		for (let i = 0; i < this.size; i++) {
+			for (let j = 0; j < this.size; j++) {
 				if (this._desk[i][j].value !== this._oldDesk[i][j].value) {
 					return true;
 				}
@@ -74,8 +67,8 @@ const Board = {
 		}
 	},
 	_isMergableBox: function () {
-		for (let i = 0; i < SIZE; i++) {
-			for (let j = 0; j < SIZE; j++) {
+		for (let i = 0; i < this.size; i++) {
+			for (let j = 0; j < this.size; j++) {
 				const t = this.getNeighbours(i, j);
 				for (let k = 0; k < t.length; k++) {
 					if (this._desk[i][j].value === this._desk[t[k][0]][t[k][1]].value) {
@@ -92,31 +85,31 @@ const Board = {
 			coordsNeighbours.push([x+1, y], [x, y+1]);
 			return coordsNeighbours;
 		}
-		else if (x == SIZE-1 && y == 0) {
+		else if (x == this.size-1 && y == 0) {
 			coordsNeighbours.push([x-1, y], [x, y+1]);
 			return coordsNeighbours;
 		}
-		else if (x == 0 && y == SIZE-1) {
+		else if (x == 0 && y == this.size-1) {
 			coordsNeighbours.push([x+1, y], [x, y-1]);
 			return coordsNeighbours;
 		}
-		else if (x == SIZE-1 && y == SIZE-1) {
+		else if (x == this.size-1 && y == this.size-1) {
 			coordsNeighbours.push([x, y-1], [x-1, y]);
 			return coordsNeighbours;
 		}
-		else if (y == 0 && (x !== 0 || x !== SIZE-1)) {
+		else if (y == 0 && (x !== 0 || x !== this.size-1)) {
 			coordsNeighbours.push([x, y+1], [x-1, y], [x+1, y]);
 			return coordsNeighbours;
 		}
-		else if (y == SIZE-1 && (x !== 0 || x !== SIZE-1)) {
+		else if (y == this.size-1 && (x !== 0 || x !== this.size-1)) {
 			coordsNeighbours.push([x, y-1], [x-1, y], [x+1, y]);
 			return coordsNeighbours;
 		}
-		else if (x == 0 && (y !== 0 || y !== SIZE-1)) {
+		else if (x == 0 && (y !== 0 || y !== this.size-1)) {
 			coordsNeighbours.push([x, y-1], [x, y+1], [x+1, y]);
 			return coordsNeighbours;
 		}
-		else if (x == SIZE-1 && (y !== 0 || y !== SIZE-1)) {
+		else if (x == this.size-1 && (y !== 0 || y !== this.size-1)) {
 			coordsNeighbours.push([x, y-1], [x, y+1], [x-1, y]);
 			return coordsNeighbours;
 		}
@@ -131,70 +124,62 @@ const Board = {
 	mergeBoxes: function (direction) {
 		this._saveOldState();
 
-		for(let s = 0;s < SIZE; s++){
-			// console.log(this._desk);
+		for(let s = 0;s < this.size; s++){
 			const columnBoxes = [];
 
 			if (direction === DIRECTION.UP) {
-				for (let i = 0; i < SIZE; i++) {
+				for (let i = 0; i < this.size; i++) {
 					columnBoxes.push(this._desk[s][i]);
 				}
 			} else if (direction === DIRECTION.DOWN) {
-				for (let i = SIZE-1; i >= 0; i--) {
+				for (let i = this.size-1; i >= 0; i--) {
 					columnBoxes.push(this._desk[s][i]);
 				}
 			} else if (direction === DIRECTION.LEFT) {
-				for (let i = 0; i < SIZE; i++) {
+				for (let i = 0; i < this.size; i++) {
 					columnBoxes.push(this._desk[i][s]);
 				}
 			} else if (direction === DIRECTION.RIGHT) {
-				for (let i = SIZE-1; i >= 0; i--) {
+				for (let i = this.size-1; i >= 0; i--) {
 					columnBoxes.push(this._desk[i][s]);
 				}
 			}
 
 			let filteredColumnBoxes = columnBoxes.filter(box => box.value !== 0);
 
-			// for (let j = 0; j < filteredColumnBoxes.length; j++) {
-			// 	console.log(filteredColumnBoxes[j].value);
-			// }
-
 			for (let j = 0; j < filteredColumnBoxes.length - 1; j++) {
 				if (filteredColumnBoxes[j].value === filteredColumnBoxes[j+1].value) {
 					filteredColumnBoxes[j].value *= 2;
 					filteredColumnBoxes.splice(j+1, 1);
-					// console.log(filteredColumnBoxes);
 				}
 			}
 
-			for (let i=filteredColumnBoxes.length;i<SIZE;i++) {
+			for (let i=filteredColumnBoxes.length;i<this.size;i++) {
 				filteredColumnBoxes.push(this.getEmptyBox(0,0));
 			}
 
 			if (filteredColumnBoxes.length>0) {
 				if (direction === DIRECTION.UP) {
-					for (let j = 0; j < SIZE; j++) {
+					for (let j = 0; j < this.size; j++) {
 						this._desk[s][j].value = filteredColumnBoxes[j].value;
 					}
 				}
 				if (direction === DIRECTION.DOWN) {
-					for (let j = SIZE-1; j >= 0; j--) {
-						this._desk[s][j].value = filteredColumnBoxes[SIZE-1-j].value;
+					for (let j = this.size-1; j >= 0; j--) {
+						this._desk[s][j].value = filteredColumnBoxes[this.size-1-j].value;
 					}
 				}
 				if (direction === DIRECTION.LEFT) {
-					for (let j = 0; j < SIZE; j++) {
+					for (let j = 0; j < this.size; j++) {
 						this._desk[j][s].value = filteredColumnBoxes[j].value;
 					}
 				}
 				if (direction === DIRECTION.RIGHT) {
-					for (let j = SIZE-1; j >= 0; j--) {
-						this._desk[j][s].value = filteredColumnBoxes[SIZE-1-j].value;
+					for (let j = this.size-1; j >= 0; j--) {
+						this._desk[j][s].value = filteredColumnBoxes[this.size-1-j].value;
 					}
 				}
 			}
-
-			// console.log(this._desk);
 		}
 	}
 }
@@ -204,8 +189,8 @@ const Draw = {
 		boardElement.innerHTML = "";
 	},
 	calculatePixelPosition: function (x, y) {
-		const left = boardElement.getBoundingClientRect().width / SIZE * x;
-		const top = boardElement.getBoundingClientRect().width / SIZE * y;
+		const left = boardElement.getBoundingClientRect().width / Board.size * x;
+		const top = boardElement.getBoundingClientRect().width / Board.size * y;
 
 		return {x: left, y: top};
 	},
@@ -232,9 +217,8 @@ const Draw = {
 	drawDesk: function () {
 		Draw.init();
 		const desk = Board.getDesk();
-		console.log(desk);
-		for (let i = 0; i < SIZE; i++) {
-			for (let j = 0; j < SIZE; j++) {
+		for (let i = 0; i < Board.size; i++) {
+			for (let j = 0; j < Board.size; j++) {
 				if (desk[i][j].value) {
 					this.drawBox(desk[i][j]);
 				}
@@ -258,29 +242,25 @@ const Player = {
 		Board.mergeBoxes(direction);
 
 		Player.setScore(Math.max(...Board.getDesk().flatMap(x => x).map(x => x.value)));
-		console.log(Board.getDesk().flatMap(x => x).map(x => x.value));
 		if (!Board._getFreeTiles() || !Board.isMoved()) {
 			return;
 		}
 
 		Board.generateBox();
 		Draw.drawDesk();
+		Game.saveGame();
 	},
 	setScore: function (value) {
-		console.log(value);
 		this.score = value;
-
+		scoreValue.innerHTML = value;
 		if (this.score === Game.goal) {
 			Game.win();
 		}
 	},
-	resetScore: function () {
-		this.score = 0;
-	}
 }
 
 const Game = {
-	activeLevel: null,
+	activeLevel: 0,
 	levels: [],
 	tutorial: "",
 	goal: 0,
@@ -289,18 +269,11 @@ const Game = {
 		Draw.init();
 	},
 	reset: function () {
-		Player.resetScore();
-		// Board.init();
-		console.log("reset");
-		console.log(this.activeLevel);
-		// this.activeLevel = this.levels[0].id;
-		// this.goal = this.levels[0].goal;
-		
-		Board.loadLevel(this.levels[this.activeLevel].data);
-
-		// Board.loadLevel(this.activeLevel.data);
-		Draw.init();
-		Draw.drawDesk();
+		this.setLevel(this.levels[0].id);
+		this.goal = this.levels[0].goal;
+		Player.setScore(Math.max(...this.levels[0].data.flatMap(x => x).map(x => x.value)));
+		Board.init(this.levels[0].data, this.levels[0].size);
+		this.saveGame();
 	},
 	lost: function () {
 		console.log('Game over');
@@ -308,8 +281,11 @@ const Game = {
 	},
 	win: function () {
 		console.log('You won');
-		// this.reset();
 		this.nextLevel();
+	},
+	setLevel: function (value) {
+		this.activeLevel = value;
+		levelValue.innerHTML = value;
 	},
 	loadData: function () {
 		fetch('./data.json')
@@ -318,25 +294,44 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
-					this.activeLevel = data.levels[0].id;
-					this.goal = data.levels[0].goal;
-					Board.loadLevel(data.levels[0].data);
+					// this.activeLevel = data.levels[0].id;
+					// levelValue.innerHTML = data.levels[0].id;
+					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
+					// this.goal = data.levels[0].goal;
+					// Board.init(data.levels[0].data, data.levels[0].size);
 				}
-			});
+			}).then(() => this.loadSave());
 	},
 	nextLevel: function () {
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
-		console.log(nextLevelData);
-		this.activeLevel++;
+		this.setLevel(++this.activeLevel);
 		this.goal = nextLevelData.goal;
-		Board.loadLevel(nextLevelData.data);
+		Player.setScore(Math.max(...nextLevelData.data.flatMap(x => x).map(x => x.value)));
+		Board.init(nextLevelData.data, nextLevelData.size);
+		this.saveGame();
 	},
 	loadSave: function () {
-		const gameSave = localStorage.getItem('game-save') || this.levels[0];
-
-		Board._desk = gameSave;
-		Draw.drawDesk();
+		const gameSave = JSON.parse(localStorage.getItem('game-save')) || this.levels[0];
 		console.log(gameSave);
+
+		this.setLevel(gameSave.id);
+		this.goal = gameSave.goal;
+		Board.init(gameSave.data, gameSave.size);
+		console.log(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
+		Player.setScore(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
+	},
+	saveGame: function () {
+		const gameSave = {
+			score: Player.score,
+			id: this.activeLevel,
+			title: "Level " + this.activeLevel,
+			size: Board.size,
+			goal: this.goal,
+			data: Board.getDesk(),
+		}
+
+		localStorage.setItem('game-save', JSON.stringify(gameSave));
+		console.log(JSON.parse(localStorage.getItem('game-save')));
 	},
 	removeSave: function () {
 		localStorage.removeItem('game-save');
@@ -368,14 +363,7 @@ window.addEventListener('keydown', (e) => {
 	}
 });
 
-
-
 Game.init();
-
-// Game.loadData();
-// Game.loadSave();
-
-// console.log(Board.getDesk(), Player.score, Game.activeLevel);
 
 // Save state before closing tab/game
  window.addEventListener('beforeunload', function (e) {
@@ -392,4 +380,13 @@ if ("serviceWorker" in navigator) {
       .then(res => console.log("service worker registered"))
       .catch(err => console.log("service worker not registered", err))
   })
+}
+
+
+// What kind of device is used
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+  // Implement sensor
+  console.log('mobile');
+}else{
+  console.log('desktop');
 }
