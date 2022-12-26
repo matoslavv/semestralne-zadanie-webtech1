@@ -7,8 +7,12 @@ const gyro_button = document.getElementById("start_gyro");
 const BASE_VALUE = 3;
 
 const BOARD_STYLING = {
-	3: {boxWidth: '133px', boxHeight: '130px', fontSize: '40px', repeating: '133.333px'},
-	4: {boxWidth: '99px', boxHeight: '99px', fontSize: '32px', repeating: '99.333px'}
+	//3: {boxWidth: '134px', boxHeight: '130px', fontSize: '40px', repeating: 'board3'},
+	// 4: {boxWidth: '99px', boxHeight: '99px', fontSize: '32px', repeating: 'board4'},
+	// 5: {boxWidth: '79px', boxHeight: '79px', fontSize: '26px', repeating: 'board5'}
+	3: {boxSize: 'board-3-box', repeating: 'board3'},
+	4: {boxSize: 'board-4-box', repeating: 'board4'},
+	5: {boxSize: 'board-5-box', repeating: 'board5'}
 }
 
 const DIRECTION = {
@@ -186,9 +190,20 @@ const Board = {
 	}
 }
 
+let oldClass = "";
 const Draw = {
 	init: function () {
 		boardElement.innerHTML = "";
+		
+		if(oldClass != "") {
+			boardElement.classList.remove(oldClass);
+		}	
+
+		if(Board.size > 2) {
+			boardElement.classList.add(BOARD_STYLING[Board.size].repeating);
+			oldClass = BOARD_STYLING[Board.size].repeating;
+		}
+		
 	},
 	calculatePixelPosition: function (x, y) {
 		const left = boardElement.getBoundingClientRect().width / Board.size * x;
@@ -205,6 +220,11 @@ const Draw = {
 	createBox: function (box) {
 		const boxEl = document.createElement('div');
 		boxEl.classList.add('box');
+		boxEl.classList.add(BOARD_STYLING[Board.size].boxSize);
+		// boxEl.style.width = BOARD_STYLING[Board.size].boxWidth;
+		// boxEl.style.height  = BOARD_STYLING[Board.size].boxHeight;
+		// boxEl.style.fontSize= BOARD_STYLING[Board.size].fontSize;
+		
 		boxEl.classList.add(`box-${box.value}`);
 		boxEl.style.left = box.x + 'px';
 		boxEl.style.top = box.y + 'px';
@@ -309,6 +329,11 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels;
+					// this.activeLevel = data.levels[0].id;
+					// levelValue.innerHTML = data.levels[0].id;
+					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
+					// this.goal = data.levels[0].goal;
+					// Board.init(data.levels[0].data, data.levels[0].size);
 				}
 			}).then(() => this.loadSave());
 	},
@@ -401,8 +426,8 @@ if ("serviceWorker" in navigator) {
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
   // Implement sensor
   console.log('mobile');
-
-	gyro_button.style.visibility = 'visible';
+  	screen.orientation.lock("portrait");
+	gyro_button.style.visibility = 'visible';	
   	let is_running = false;
   	gyro_button.onclick = function(e) {
 		e.preventDefault();
@@ -428,6 +453,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 	};
 }else{
   console.log('desktop');
+  gyro_button.style.visibility = 'hidden';	
 }
 
 
@@ -438,40 +464,35 @@ function handleMotion(event) {
 		Player.makeMove(DIRECTION.DOWN);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;
-          }, 650);
+            isMoving = false;     
+          }, 650); 
 
     } else if(event.rotationRate.alpha<-150 && !isMoving){
 		Player.makeMove(DIRECTION.UP);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;
+            isMoving = false;    
           }, 650);
 
     }else if(event.rotationRate.beta<-150 && !isMoving){
 		Player.makeMove(DIRECTION.LEFT);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;
+            isMoving = false;          
           }, 650);
 
     }else if(event.rotationRate.beta>150 && !isMoving){
 		Player.makeMove(DIRECTION.RIGHT);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;
+            isMoving = false;       
           }, 650);
     };
 }
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevents the default mini-infobar or install dialog from appearing on mobile
-  e.preventDefault();
-  // Save the event because you'll need to trigger it later.
-  deferredPrompt = e;
-  // Show your customized install prompt for your PWA
-  // Your own UI doesn't have to be a single element, you
-  // can have buttons in different locations, or wait to prompt
-  // as part of a critical journey.
-  showInAppInstallPromotion();
-});
+
+
+
+
+
+
+

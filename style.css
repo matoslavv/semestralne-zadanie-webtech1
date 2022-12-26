@@ -9,22 +9,67 @@
   border-radius: 10px;
   margin: 0 auto;
 
-  background-image: repeating-linear-gradient(
+  /* background-image: repeating-linear-gradient(
       90deg,
       gray 0 1px,
       transparent 0px 133.333px
     ),
-    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 133.333px);
+    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 133.333px); */
 
   /* gap: 20px; */
+}
+.board3{
+  background-image: repeating-linear-gradient(
+    90deg,
+    gray 0 1px,
+    transparent 0px 133.333px
+  ),
+  repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 133.333px);
+
+}
+
+.board4{
+  background-image: repeating-linear-gradient(
+      90deg,
+      gray 0 1px,
+      transparent 0px 99.333px
+    ),
+    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 99.333px);
+}
+
+.board5{
+  background-image: repeating-linear-gradient(
+      90deg,
+      gray 0 1px,
+      transparent 0px 80px
+    ),
+    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 80px);
+}
+
+.board-3-box{
+  width: 134px !important;
+  height: 130px !important;
+  font-size: 40px !important; 
+}
+.board-4-box{
+  width: 99px !important;
+  height: 99px !important;
+  font-size: 32px !important;
+}
+.board-5-box{
+  width: 79px !important;
+  height: 79px !important;
+  font-size: 26px !important;
 }
 
 .box {
   display: inline-block; /* */
   /* position: relative; */
   position: absolute;
-  width: 134px;
-  height: 130px;
+
+  /* width: 134px;
+  height: 130px; */
+  
   /* width: 130px;
   height: 130px; */
   border: 1px solid gray;
@@ -93,7 +138,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 65%;
+  max-width: 70%;
   margin: 0 auto;
   padding: 10px 10px;
   position: relative;
@@ -117,7 +162,7 @@ nav > ul li ul {
   z-index: 2000;
 }
 
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   nav ul {
     display: none;
   }
@@ -134,9 +179,80 @@ nav > ul li ul {
   label:after {
     content: "";
   }
+
+  #stats{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+    margin-left: 10px;
+  }
+  #stats strong{
+    width: 100%;
+    margin-left: 0px;
+    display: flex;
+    justify-content: center;
+  }
+  .navbar{
+    max-width: 90%;
+  }
+
 }
 
-@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+@media screen and (max-width: 540px) { 
+  
+  #board{
+    
+    width: 300px;
+    height: 300px;
+  }
+
+  .board-3-box{
+    width: 100px !important;
+    height: 98px !important;
+    font-size: 30px !important; 
+  }
+  .board-4-box{
+    width: 75px !important;
+    height: 75px !important;
+    font-size: 22px !important;
+  }
+  .board-5-box{
+    width: 59px !important;
+    height: 59px !important;
+    font-size: 18px !important;
+  }
+
+  .board3{
+    background-image: repeating-linear-gradient(
+      90deg,
+      gray 0 1px,
+      transparent 0px 99.999px
+    ),
+    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 99.999px);
+  
+  }
+  
+  .board4{
+    background-image: repeating-linear-gradient(
+        90deg,
+        gray 0 1px,
+        transparent 0px 74.99px
+      ),
+      repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 74.99px);
+  }
+  
+  .board5{
+    background-image: repeating-linear-gradient(
+        90deg,
+        gray 0 1px,
+        transparent 0px 60.333px
+      ),
+      repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 60.333px);
+  }
+}
+
+/* @media on screen and (orientation: landscape) {
   html {
     transform: rotate(-90deg);
     transform-origin: left top;
@@ -146,12 +262,13 @@ nav > ul li ul {
     top: 100%;
     left: 0;
   }
-}
+} */
 
 .nav-links {
   margin: 0;
   padding: 0;
   float: right;
+  display: flex;
 }
 
 .nav-links > .nav-link {
@@ -262,3 +379,4 @@ header {
     display: none;
   }
 }
+
