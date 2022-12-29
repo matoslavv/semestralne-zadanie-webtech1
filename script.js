@@ -194,16 +194,16 @@ let oldClass = "";
 const Draw = {
 	init: function () {
 		boardElement.innerHTML = "";
-		
+
 		if(oldClass != "") {
 			boardElement.classList.remove(oldClass);
-		}	
+		}
 
 		if(Board.size > 2) {
 			boardElement.classList.add(BOARD_STYLING[Board.size].repeating);
 			oldClass = BOARD_STYLING[Board.size].repeating;
 		}
-		
+
 	},
 	calculatePixelPosition: function (x, y) {
 		const left = boardElement.getBoundingClientRect().width / Board.size * x;
@@ -224,7 +224,7 @@ const Draw = {
 		// boxEl.style.width = BOARD_STYLING[Board.size].boxWidth;
 		// boxEl.style.height  = BOARD_STYLING[Board.size].boxHeight;
 		// boxEl.style.fontSize= BOARD_STYLING[Board.size].fontSize;
-		
+
 		boxEl.classList.add(`box-${box.value}`);
 		boxEl.style.left = box.x + 'px';
 		boxEl.style.top = box.y + 'px';
@@ -328,7 +328,7 @@ const Game = {
 			.then(data => {
 				if (data) {
 					this.tutorial = data.tutorial;
-					this.levels = data.levels;
+					this.levels = data.levels.sort((a, b) => a.id - b.id);
 					// this.activeLevel = data.levels[0].id;
 					// levelValue.innerHTML = data.levels[0].id;
 					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
@@ -427,7 +427,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
   // Implement sensor
   console.log('mobile');
   	screen.orientation.lock("portrait");
-	gyro_button.style.visibility = 'visible';	
+	gyro_button.style.visibility = 'visible';
   	let is_running = false;
   	gyro_button.onclick = function(e) {
 		e.preventDefault();
@@ -453,7 +453,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 	};
 }else{
   console.log('desktop');
-  gyro_button.style.visibility = 'hidden';	
+  gyro_button.style.visibility = 'hidden';
 }
 
 
@@ -464,28 +464,28 @@ function handleMotion(event) {
 		Player.makeMove(DIRECTION.DOWN);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;     
-          }, 650); 
+            isMoving = false;
+          }, 650);
 
     } else if(event.rotationRate.alpha<-150 && !isMoving){
 		Player.makeMove(DIRECTION.UP);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;    
+            isMoving = false;
           }, 650);
 
     }else if(event.rotationRate.beta<-150 && !isMoving){
 		Player.makeMove(DIRECTION.LEFT);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;          
+            isMoving = false;
           }, 650);
 
     }else if(event.rotationRate.beta>150 && !isMoving){
 		Player.makeMove(DIRECTION.RIGHT);
         isMoving = true;
         setTimeout(function (){
-            isMoving = false;       
+            isMoving = false;
           }, 650);
     };
 }
