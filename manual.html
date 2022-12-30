@@ -38,33 +38,33 @@
 	<header>
 		<nav class="navbar">
 			<a href="#" class="logo">3hree</a>
-			<div id="stats">
-				<strong id="level-wrap">
-					Level: <span id="level-value"></span>
-				</strong>
-				<strong id="score-wrap">
-					Skore: <span id="score-value"></span>
-				</strong>
-				<strong id="goal-wrap">
-					Goal: <span id="goal-value"></span>
-				</strong>
-			</div>
+
 			<ul class="nav-links">
 				<li class="nav-link">
-					<a href="./manual.html">
-						Návod
+					<a href="./index.html">
+						GAME
 					</a>
 				</li>
 			</ul>
 		</nav>
 	</header>
 
-	<div class="container">
-		<button id="start_gyro" class="btn-success"> Start gyro </button>
-	</div>
+    
+    
+    </div>
 
-	<main id="board"></main>
-	<script src="./script.js"></script>
+    <main>
+		<div class="center">
+			<div id="container-manual">
+                <h2>Cieľ hry </h2>
+                <p>Cieľom hry je spájať políčka s rovnakou hdonotou a dokončiť 10 levelov s rôznymi obtiažnosťami a veĺkosťou hracej plochy</p>
+                <p>Hráč dokončí level v prípade že jeho SKORE dosiahne rovnakú hodnotu ako je GOAL</p>
+                <p>V prípade, že hráč nedosiahne GOAL a na hracej ploche sa nebude nachádzať voľné políčko alebo políčka ktoré je možné spojiť, hra končí a hráč musí začať od prvého levelu</p>
+				<h2>Ovládanie</h2>
+				<p id="control-text"></p>
+		</div>
+	</main>
+
 </body>
-
+<script src="./manualScript.js"></script>
 </html>

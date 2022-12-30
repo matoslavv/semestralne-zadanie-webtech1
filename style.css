@@ -32,7 +32,7 @@
   background-image: repeating-linear-gradient(
       90deg,
       gray 0 1px,
-      transparent 0px 99.333px
+      transparent 0px 99.99px
     ),
     repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 99.333px);
 }
@@ -43,7 +43,7 @@
       gray 0 1px,
       transparent 0px 80px
     ),
-    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 80px);
+    repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 79.666px);
 }
 
 .board-3-box{
@@ -52,13 +52,13 @@
   font-size: 40px !important; 
 }
 .board-4-box{
-  width: 99px !important;
-  height: 99px !important;
+  width: 100px !important;
+  height: 100px !important;
   font-size: 32px !important;
 }
 .board-5-box{
-  width: 79px !important;
-  height: 79px !important;
+  width: 80px !important;
+  height: 80px !important;
   font-size: 26px !important;
 }
 
@@ -218,8 +218,8 @@ nav > ul li ul {
     font-size: 22px !important;
   }
   .board-5-box{
-    width: 59px !important;
-    height: 59px !important;
+    width: 60px !important;
+    height: 60px !important;
     font-size: 18px !important;
   }
 
@@ -237,19 +237,25 @@ nav > ul li ul {
     background-image: repeating-linear-gradient(
         90deg,
         gray 0 1px,
-        transparent 0px 74.99px
+        transparent 0px 75px
       ),
-      repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 74.99px);
+      repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 74.333px);
   }
   
   .board5{
     background-image: repeating-linear-gradient(
         90deg,
         gray 0 1px,
-        transparent 0px 60.333px
+        transparent 0px 60px
       ),
-      repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 60.333px);
+      repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 59.333px);
   }
+
+  #container-manual{
+    max-width: 300px;
+  }
+
+
 }
 
 /* @media on screen and (orientation: landscape) {
@@ -339,6 +345,26 @@ nav {
 }
 * {
   box-sizing: border-box;
+}
+
+#container-manual{
+  display: flex;
+  justify-content: left;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 400px;
+  margin: 10px;
+}
+
+#container-manual h2{
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 body {

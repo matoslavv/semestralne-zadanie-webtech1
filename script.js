@@ -273,6 +273,7 @@ const Player = {
 		Game.saveGame();
 	},
 	setScore: function (value) {
+		console.log(value);
 		this.score = value;
 		scoreValue.innerHTML = value;
 		if (this.score === Game.goal) {
@@ -425,7 +426,7 @@ if ("serviceWorker" in navigator) {
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
   // Implement sensor
-  console.log('mobile');
+  	console.log('mobile');
   	screen.orientation.lock("portrait");
 	gyro_button.style.visibility = 'visible';
   	let is_running = false;
@@ -492,7 +493,15 @@ function handleMotion(event) {
 
 
 
+var maxWidth = window.matchMedia("(max-width: 540px)")
+var minWidth = window.matchMedia("(min-width: 540px)")
 
+maxWidth.addEventListener("change", () => {
+	Draw.drawDesk();
+});
 
+minWidth.addEventListener("change", () => {
+	Draw.drawDesk();
+});
 
 
