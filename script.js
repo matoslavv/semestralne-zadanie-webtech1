@@ -452,6 +452,45 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 			is_running = true;
 		}
 	};
+
+	let touchstartX = 0;
+	let touchendX = 0;
+	let touchstartY = 0;
+	let touchendY = 0;
+	if(!is_running){
+		function checkDirection() {
+
+				var xDiff = touchstartX - touchendX;
+				var yDiff = touchstartY - touchendY;
+			
+				if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {	/*most significant*/
+					if ( xDiff > 0 ) {
+						Player.makeMove(DIRECTION.LEFT);
+					} else {
+						Player.makeMove(DIRECTION.RIGHT);
+					}                       
+				} else {
+					if ( yDiff > 0 ) {
+						Player.makeMove(DIRECTION.UP);
+					} else { 
+						Player.makeMove(DIRECTION.DOWN);
+					}                                                                 
+				}
+				xDown = null;
+   				yDown = null;  
+			}
+			
+			document.addEventListener('touchstart', e => {
+				touchstartX = e.changedTouches[0].screenX
+				touchstartY = e.changedTouches[0].screenY
+			})
+			
+			document.addEventListener('touchend', e => {
+				touchendX = e.changedTouches[0].screenX
+				touchendY = e.changedTouches[0].screenY
+				checkDirection()
+			})
+	}
 }else{
   console.log('desktop');
   gyro_button.style.visibility = 'hidden';	
