@@ -349,6 +349,11 @@ const Game = {
 			}).then(() => this.loadSave());
 	},
 	nextLevel: function () {
+		if(this.activeLevel==10){
+			alert("Gratulujem! Úspešne ste zvládli všetky leveli");
+			this.reset();
+			return;
+		}
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
 		this.setLevel(++this.activeLevel);
 		this.setGoal(nextLevelData.goal);
