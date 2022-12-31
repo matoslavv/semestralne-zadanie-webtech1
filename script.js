@@ -4,15 +4,15 @@ const scoreValue = document.getElementById('score-value');
 const goalValue = document.getElementById('goal-value');
 const gyroButton = document.getElementById("start-gyro");
 const hintButton = document.getElementById("show-hint");
+const solutionButton = document.getElementById("show-solution");
 const hint = document.getElementById("hint-text");
-const hintContainer = document.getElementById("container-hint")
+const solution = document.getElementById("solution");
+const hintContainer = document.getElementById("container-hint");
+const solutionContainer = document.getElementById("container-solution");
 
 const BASE_VALUE = 3;
 
 const BOARD_STYLING = {
-	//3: {boxWidth: '134px', boxHeight: '130px', fontSize: '40px', repeating: 'board3'},
-	// 4: {boxWidth: '99px', boxHeight: '99px', fontSize: '32px', repeating: 'board4'},
-	// 5: {boxWidth: '79px', boxHeight: '79px', fontSize: '26px', repeating: 'board5'}
 	3: {boxSize: 'board-3-box', repeating: 'board3'},
 	4: {boxSize: 'board-4-box', repeating: 'board4'},
 	5: {boxSize: 'board-5-box', repeating: 'board5'}
@@ -88,7 +88,7 @@ const Board = {
 		}
 		return false
 	},
-	getNeighbours: function (x,y) { // test it
+	getNeighbours: function (x,y) {
 		const coordsNeighbours = [];
 		if (x == 0 && y == 0) {
 			coordsNeighbours.push([x+1, y], [x, y+1]);
@@ -224,10 +224,6 @@ const Draw = {
 		const boxEl = document.createElement('div');
 		boxEl.classList.add('box');
 		boxEl.classList.add(BOARD_STYLING[Board.size].boxSize);
-		// boxEl.style.width = BOARD_STYLING[Board.size].boxWidth;
-		// boxEl.style.height  = BOARD_STYLING[Board.size].boxHeight;
-		// boxEl.style.fontSize= BOARD_STYLING[Board.size].fontSize;
-
 		boxEl.classList.add(`box-${box.value}`);
 		boxEl.style.left = box.x + 'px';
 		boxEl.style.top = box.y + 'px';
@@ -250,15 +246,6 @@ const Draw = {
 			}
 		}
 	},
-	// getBoxSize: function (size, resolution) {
-	// 	switch (size) {
-	// 		case BOARD_WIDTH[400]:
-	// 			return {boxWidth: '133px', boxHeight: '130px', repeating: '133.333px'} // 99.333px repeating 4x4
-	// 		case BOARD_WIDTH[700]:
-	// 			return {boxWidth: '133px', boxHeight: '130px', repeating: '175px'}
-
-	// 	}
-	// }
 }
 
 const Player = {
@@ -290,6 +277,7 @@ const Game = {
 	levels: [],
 	tutorial: "",
 	hint: "",
+	solution: "",
 	goal: 0,
 	init: function () {
 		this.loadData();
@@ -299,6 +287,7 @@ const Game = {
 		this.setLevel(this.levels[0].id);
 		this.setGoal(this.levels[0].goal);
 		this.setHint(this.levels[0].hint);
+		this.setSolution(this.levels[0].solution);
 		console.log(this.levels[0].hint);
 		Player.setScore(Math.max(...this.levels[0].data.flatMap(x => x).map(x => x.value)));
 		Board.init(this.levels[0].data, this.levels[0].size);
@@ -329,6 +318,10 @@ const Game = {
 		this.hint = value;
 		hint.innerHTML = value;
 	},
+	setSolution: function (value) {
+		this.solution = value;
+		solution.src = value;
+	},
 	setGoal: function (value) {
 		this.goal = value;
 		goalValue.innerHTML = value;
@@ -340,11 +333,6 @@ const Game = {
 				if (data) {
 					this.tutorial = data.tutorial;
 					this.levels = data.levels.sort((a, b) => a.id - b.id);
-					// this.activeLevel = data.levels[0].id;
-					// levelValue.innerHTML = data.levels[0].id;
-					// Player.setScore(Math.max(...data.levels[0].data.flatMap(x => x).map(x => x.value)));
-					// this.goal = data.levels[0].goal;
-					// Board.init(data.levels[0].data, data.levels[0].size);
 				}
 			}).then(() => this.loadSave());
 	},
@@ -353,18 +341,18 @@ const Game = {
 		this.setLevel(++this.activeLevel);
 		this.setGoal(nextLevelData.goal);
 		this.setHint(nextLevelData.hint);
+		this.setSolution(nextLevelData.solution);
 		Player.setScore(Math.max(...nextLevelData.data.flatMap(x => x).map(x => x.value)));
 		Board.init(nextLevelData.data, nextLevelData.size);
 		this.saveGame();
 	},
 	loadSave: function () {
 		const gameSave = JSON.parse(localStorage.getItem('game-save')) || this.levels[0];
-		console.log(gameSave);
-
 		this.setLevel(gameSave.id);
 		console.log(gameSave.goal);
 		this.setGoal(gameSave.goal);
 		this.setHint(gameSave.hint);
+		this.setSolution(gameSave.solution);
 		Board.init(gameSave.data, gameSave.size);
 		console.log(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
 		Player.setScore(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
@@ -377,6 +365,7 @@ const Game = {
 			size: Board.size,
 			goal: this.goal,
 			hint: this.hint,
+			solution: this.solution,
 			data: Board.getDesk(),
 		}
 
@@ -427,16 +416,13 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/serviceWorker.js")
-      .then(res => console.log("service worker registered"))
+      .then(() => console.log("service worker registered"))
       .catch(err => console.log("service worker not registered", err))
   })
 }
 
 
-// What kind of device is used
-
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-  // Implement sensor
   	console.log('mobile');
   	screen.orientation.lock("portrait");
 	// gyroButton.style.visibility = 'visible';
@@ -565,9 +551,7 @@ minWidth.addEventListener("change", () => {
 });
 
 
-hintButton.onclick = function(e) {
-	console.log("here")
-
+hintButton.addEventListener('click', () => {
 	if(hintContainer.style.display == "none"){
 		hintContainer.style.display = "block"
 		hintButton.classList.remove('btn-success');
@@ -577,4 +561,16 @@ hintButton.onclick = function(e) {
 		hintButton.classList.remove('btn-danger');
 		hintButton.classList.add('btn-success');
 	}
-}
+});
+
+solutionButton.addEventListener('click', () => {
+	if(solutionContainer.style.display == "none"){
+		solutionContainer.style.display = "block"
+		solutionButton.classList.remove('btn-success');
+		solutionButton.classList.add('btn-danger');
+	}else{
+		solutionContainer.style.display = "none"
+		solutionButton.classList.remove('btn-danger');
+		solutionButton.classList.add('btn-success');
+	}
+});

@@ -5,127 +5,889 @@
 			"id": 1,
 			"title": "Level 1",
 			"hint": "Ide o prvý najjednoduchší level s jednoduchým cieľom, odporúčame zoznámiť sa s pohybom blokov",
+			"solution": "https://www.youtube.com/embed/AnGdRod1trU",
 			"size": 3,
 			"goal": 24,
 			"data": [
-						[{"x": 0,"y": 0,"value": 0}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 0}],
-						[{"x": 0,"y": 1,"value": 0}, {"x": 1,"y": 1,"value": 0}, {"x": 2,"y": 1,"value": 0}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 0}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 0
+					}
+				]
 			]
 		},
 		{
 			"id": 2,
 			"title": "Level 2",
 			"hint": "Aj keď začínate bez voľných políčok, k dispozícii je plno zlúčiteľných blokov, odporúčame spájať bloky k jedenj zo strán a použiť už existujúci blok 24",
+			"solution": "https://www.youtube.com/embed/Iw6r50uZaeU",
 			"size": 3,
 			"goal": 96,
 			"data": [
-						[{"x": 0,"y": 0,"value": 3}, {"x": 1,"y": 0,"value": 3}, {"x": 2,"y": 0,"value": 3}],
-						[{"x": 0,"y": 1,"value": 3}, {"x": 1,"y": 1,"value": 24}, {"x": 2,"y": 1,"value": 3}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 3}, {"x": 2,"y": 2,"value": 3}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 24
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 3
+					}
+				]
 			]
 		},
 		{
 			"id": 3,
 			"title": "Level 3",
 			"hint": "Pozor na rozmiestnenie blokov pri tomto leveli, zamerajte sa na to aby sa nespojiteľné bloky veľmi nestriedali",
+			"solution": "https://www.youtube.com/embed/EVOKP27nAe8",
 			"size": 3,
 			"goal": 192,
 			"data": [
-						[{"x": 0,"y": 0,"value": 6}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 3}],
-						[{"x": 0,"y": 1,"value": 0}, {"x": 1,"y": 1,"value": 24}, {"x": 2,"y": 1,"value": 0}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 6}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 6
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 24
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 6
+					}
+				]
 			]
 		},
 		{
 			"id": 4,
 			"title": "Level 4",
 			"hint": "Zamerajte sa na pohyby, ktoré spoja viac bĺokov naraz aby ste si uvoľnili miesto pre ďalší pohyb",
+			"solution": "https://www.youtube.com/embed/9WXSdeKwXzo",
 			"size": 3,
 			"goal": 192,
 			"data": [
-						[{"x": 0,"y": 0,"value": 6}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 6}],
-						[{"x": 0,"y": 1,"value": 6}, {"x": 1,"y": 1,"value": 3}, {"x": 2,"y": 1,"value": 6}],
-						[{"x": 0,"y": 2,"value": 6}, {"x": 1,"y": 2,"value": 6}, {"x": 2,"y": 2,"value": 6}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 6
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 6
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 6
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 6
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 6
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 6
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 6
+					}
+				]
 			]
 		},
 		{
 			"id": 5,
 			"title": "Level 5",
 			"hint": "Pri tomto leveli máte veľkú možnosť improvizácie, kedže je tu veľká voľná plocha. Problémom je výsoký Goal tohto levelu. Odporúčame pohybovať sa k určitému rohu a tam sústrediť blok s najväčším číslom",
+			"solution": "https://www.youtube.com/embed/f63WKhgslw0",
 			"size": 3,
 			"goal": 384,
 			"data": [
-						[{"x": 0,"y": 0,"value": 0}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 0}],
-						[{"x": 0,"y": 1,"value": 192}, {"x": 1,"y": 1,"value": 3}, {"x": 2,"y": 1,"value": 3}],
-						[{"x": 0,"y": 2,"value": 0}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 0}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 192
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 0
+					}
+				]
 			]
 		},
 		{
 			"id": 6,
 			"title": "Level 6",
 			"hint": "Nemierte na veľké čísla blokov, mohli by ste sa dostať do ťažkej situácie. Zamerajte sa na menšie bloky a postupné spájanie.",
+			"solution": "https://www.youtube.com/embed/SHf7SH-apog",
 			"size": 4,
 			"goal": 384,
 			"data": [
-						[{"x": 0,"y": 0,"value": 6}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 3}, {"x": 3,"y": 0,"value": 12}],
-						[{"x": 0,"y": 1,"value": 24}, {"x": 1,"y": 1,"value": 6}, {"x": 2,"y": 1,"value": 24}, {"x": 3,"y": 1,"value": 96}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 12}, {"x": 2,"y": 2,"value":48}, {"x": 3,"y": 2,"value": 12}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 3}, {"x": 2,"y": 2,"value": 3}, {"x": 3,"y": 3,"value": 6}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 6
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 3
+					},
+					{
+						"x": 3,
+						"y": 0,
+						"value": 12
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 24
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 6
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 24
+					},
+					{
+						"x": 3,
+						"y": 1,
+						"value": 96
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 12
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 48
+					},
+					{
+						"x": 3,
+						"y": 2,
+						"value": 12
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 6
+					}
+				]
 			]
 		},
 		{
 			"id": 7,
 			"title": "Level 7",
 			"hint": "Pri veľkosti plochy 4x4 máte dostatok priestoru na manévrovanie. Odporúčame využiť už bloky s vyššími číslami a tak sa priblížiť k cieľu",
+			"solution": "https://www.youtube.com/embed/GPYaofmzZps",
 			"size": 4,
 			"goal": 768,
 			"data": [
-						[{"x": 0,"y": 0,"value": 0}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 3}, {"x": 3,"y": 0,"value": 12}],
-						[{"x": 0,"y": 1,"value": 24}, {"x": 1,"y": 1,"value": 6}, {"x": 2,"y": 1,"value": 24}, {"x": 3,"y": 1,"value": 0}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value":48}, {"x": 3,"y": 2,"value": 12}],
-						[{"x": 0,"y": 2,"value": 384}, {"x": 1,"y": 2,"value": 3}, {"x": 2,"y": 2,"value": 192}, {"x": 3,"y": 3,"value": 6}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 3
+					},
+					{
+						"x": 3,
+						"y": 0,
+						"value": 12
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 24
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 6
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 24
+					},
+					{
+						"x": 3,
+						"y": 1,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 48
+					},
+					{
+						"x": 3,
+						"y": 2,
+						"value": 12
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 384
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 192
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 6
+					}
+				]
 			]
 		},
 		{
 			"id": 8,
 			"title": "Level 8",
 			"hint": "Ide o podobný level ako číslo 5. Snažte sa sústrediť k jednému rohu a naplánovať si svoje ťahy dopredu aby ste postupne navyšovali čísla smerom k najväčšiemu",
+			"solution": "https://www.youtube.com/embed/vOKuihS0OYc",
 			"size": 4,
 			"goal": 1536,
 			"data": [
-						[{"x": 0,"y": 0,"value": 0}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 3}, {"x": 3,"y": 0,"value": 0}],
-						[{"x": 0,"y": 1,"value": 0}, {"x": 1,"y": 1,"value": 0}, {"x": 2,"y": 1,"value": 0}, {"x": 3,"y": 1,"value": 0}],
-						[{"x": 0,"y": 2,"value": 0}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value":0}, {"x": 3,"y": 2,"value": 12}],
-						[{"x": 0,"y": 2,"value": 384}, {"x": 1,"y": 2,"value": 3}, {"x": 2,"y": 2,"value": 0}, {"x": 3,"y": 3,"value": 6}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 3
+					},
+					{
+						"x": 3,
+						"y": 0,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 1,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 2,
+						"value": 12
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 384
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 6
+					}
+				]
 			]
 		},
 		{
 			"id": 9,
 			"title": "Level 9",
 			"hint": "Aj keď je v tomto leveli vysoký Goal nemalo by vám to robiť problém pri veľkosti plochy 5x5. Využite voľný priestor a v prípade, že sa zaseknete, na chvíľu spomaľte a zamyslite sa nad ďalšími ťahmi",
+			"solution": "https://www.youtube.com/embed/5e8IZ9P1DNs",
 			"size": 5,
 			"goal": 1536,
 			"data": [
-						[{"x": 0,"y": 0,"value": 48}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 192}, {"x": 3,"y": 0,"value": 0}, {"x": 4,"y": 0,"value": 3}],
-						[{"x": 0,"y": 1,"value": 12}, {"x": 1,"y": 1,"value": 0}, {"x": 2,"y": 1,"value": 96}, {"x": 3,"y": 1,"value": 3}, {"x": 4,"y": 1,"value": 3}],
-						[{"x": 0,"y": 2,"value": 6}, {"x": 1,"y": 2,"value": 3}, {"x": 2,"y": 2,"value": 192}, {"x": 3,"y": 2,"value": 0}, {"x": 4,"y": 2,"value": 3}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 96}, {"x": 3,"y": 3,"value": 3}, {"x": 4,"y": 3,"value": 0}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 48}, {"x": 3,"y": 3,"value": 0}, {"x": 4,"y": 4,"value": 0}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 48
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 192
+					},
+					{
+						"x": 3,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 0,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 12
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 96
+					},
+					{
+						"x": 3,
+						"y": 1,
+						"value": 3
+					},
+					{
+						"x": 4,
+						"y": 1,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 6
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 192
+					},
+					{
+						"x": 3,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 2,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 96
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 3
+					},
+					{
+						"x": 4,
+						"y": 3,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 48
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 4,
+						"value": 0
+					}
+				]
 			]
 		},
 		{
 			"id": 10,
 			"title": "Level 10",
 			"hint": "Ide o level s najvýšším Goalom. Snažte sa vytvoriť blok s číslom 1536 a následne ho spojiť už s existujúcim. Ak si dáte pozor na dostatočný počet voľných blokov nemalo by vám spojenie robiť problém. Zároveň si na začiatku dajte pozor aby vám blok 1536 nezavadzal pri nižších číslach. Odporúčame ho sústrediť v jednom rohu.",
+			"solution": "https://www.youtube.com/embed/EB0FoacqD1s",
 			"size": 5,
 			"goal": 3072,
 			"data": [
-						[{"x": 0,"y": 0,"value": 0}, {"x": 1,"y": 0,"value": 0}, {"x": 2,"y": 0,"value": 0}, {"x": 3,"y": 0,"value": 0}, {"x": 4,"y": 0,"value": 3}],
-						[{"x": 0,"y": 1,"value": 0}, {"x": 1,"y": 1,"value": 0}, {"x": 2,"y": 1,"value": 0}, {"x": 3,"y": 1,"value": 0}, {"x": 4,"y": 1,"value": 3}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 1536}, {"x": 3,"y": 2,"value": 0}, {"x": 4,"y": 2,"value": 3}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 0}, {"x": 3,"y": 3,"value": 0}, {"x": 4,"y": 3,"value": 0}],
-						[{"x": 0,"y": 2,"value": 3}, {"x": 1,"y": 2,"value": 0}, {"x": 2,"y": 2,"value": 0}, {"x": 3,"y": 3,"value": 0}, {"x": 4,"y": 4,"value": 0}]
+				[
+					{
+						"x": 0,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 0,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 0,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 1,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 1,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 1,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 1536
+					},
+					{
+						"x": 3,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 2,
+						"value": 3
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 3,
+						"value": 0
+					}
+				],
+				[
+					{
+						"x": 0,
+						"y": 2,
+						"value": 3
+					},
+					{
+						"x": 1,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 2,
+						"y": 2,
+						"value": 0
+					},
+					{
+						"x": 3,
+						"y": 3,
+						"value": 0
+					},
+					{
+						"x": 4,
+						"y": 4,
+						"value": 0
+					}
+				]
 			]
 		}
 	]

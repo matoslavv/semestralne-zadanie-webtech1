@@ -53,7 +53,7 @@ html{
 .board-3-box{
   width: 133.333px !important;
   height: 130px !important;
-  font-size: 40px !important; 
+  font-size: 40px !important;
 }
 .board-4-box{
   width: 100px !important;
@@ -73,7 +73,7 @@ html{
 
   /* width: 134px;
   height: 130px; */
-  
+
   /* width: 130px;
   height: 130px; */
   border: 1px solid gray;
@@ -203,10 +203,10 @@ nav > ul li ul {
 
 }
 
-@media screen and (max-width: 540px) { 
-  
+@media screen and (max-width: 540px) {
+
   #board{
-    
+
     width: 300px;
     height: 300px;
   }
@@ -214,7 +214,7 @@ nav > ul li ul {
   .board-3-box{
     width: 100px !important;
     height: 98px !important;
-    font-size: 30px !important; 
+    font-size: 30px !important;
   }
   .board-4-box{
     width: 75px !important;
@@ -234,9 +234,9 @@ nav > ul li ul {
       transparent 0px 99.999px
     ),
     repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 99.999px);
-  
+
   }
-  
+
   .board4{
     background-image: repeating-linear-gradient(
         90deg,
@@ -245,7 +245,7 @@ nav > ul li ul {
       ),
       repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 74.333px);
   }
-  
+
   .board5{
     background-image: repeating-linear-gradient(
         90deg,
@@ -255,7 +255,7 @@ nav > ul li ul {
       repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 59.333px);
   }
 
-  #container-manual, #container-hint{
+  #container-manual, #container-hint, #container-solution {
     max-width: 300px;
   }
 
@@ -337,7 +337,7 @@ nav {
   padding: 5px 10px;
 }
 
- #show-hint{
+ #show-hint, #show-solution {
   margin: 0 auto;
   position: relative;
   color: white;
@@ -345,6 +345,7 @@ nav {
   border-radius: 10px;
   margin: 5px 5px;
   padding: 5px 10px;
+  cursor: pointer;
 }
 
 .btn-success{
@@ -363,17 +364,21 @@ nav {
   box-sizing: border-box;
 }
 
-#container-manual, #container-hint{
+#container-manual, #container-hint, #container-solution {
   display: flex;
   justify-content: left;
   flex-direction: row;
   flex-wrap: wrap;
   width: 400px;
-  margin: 10px;
+  margin: 30px 10px;
 }
 
-#container-hint{
+#container-hint, #container-solution {
   display: none;
+}
+
+#container-solution {
+  text-align: center;
 }
 
 #container-manual h2{
