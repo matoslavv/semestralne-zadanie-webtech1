@@ -51,7 +51,7 @@ html{
 }
 
 .board-3-box{
-  width: 134px !important;
+  width: 133.333px !important;
   height: 130px !important;
   font-size: 40px !important; 
 }
@@ -255,9 +255,10 @@ nav > ul li ul {
       repeating-linear-gradient(0deg, gray 0 1px, transparent 0px 59.333px);
   }
 
-  #container-manual{
+  #container-manual, #container-hint{
     max-width: 300px;
   }
+
 
 
 }
@@ -324,8 +325,19 @@ nav {
   margin-left: 25px;
 }
 
-#start_gyro{
-  visibility: hidden;
+#start-gyro{
+  display: none;
+  /* visibility: hidden; */
+  margin: 0 auto;
+  position: relative;
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;
+  margin: 5px 5px;
+  padding: 5px 10px;
+}
+
+ #show-hint{
   margin: 0 auto;
   position: relative;
   color: white;
@@ -351,7 +363,7 @@ nav {
   box-sizing: border-box;
 }
 
-#container-manual{
+#container-manual, #container-hint{
   display: flex;
   justify-content: left;
   flex-direction: row;
@@ -360,8 +372,17 @@ nav {
   margin: 10px;
 }
 
+#container-hint{
+  display: none;
+}
+
 #container-manual h2{
   margin-bottom: 10px;
+  width: 100%;
+}
+
+#container-hint h2{
+  margin: 0px;
   width: 100%;
 }
 

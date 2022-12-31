@@ -2,7 +2,10 @@ const boardElement = document.getElementById('board');
 const levelValue = document.getElementById('level-value');
 const scoreValue = document.getElementById('score-value');
 const goalValue = document.getElementById('goal-value');
-const gyro_button = document.getElementById("start_gyro");
+const gyroButton = document.getElementById("start-gyro");
+const hintButton = document.getElementById("show-hint");
+const hint = document.getElementById("hint-text");
+const hintContainer = document.getElementById("container-hint")
 
 const BASE_VALUE = 3;
 
@@ -286,6 +289,7 @@ const Game = {
 	activeLevel: 0,
 	levels: [],
 	tutorial: "",
+	hint: "",
 	goal: 0,
 	init: function () {
 		this.loadData();
@@ -294,6 +298,8 @@ const Game = {
 	reset: function () {
 		this.setLevel(this.levels[0].id);
 		this.setGoal(this.levels[0].goal);
+		this.setHint(this.levels[0].hint);
+		console.log(this.levels[0].hint);
 		Player.setScore(Math.max(...this.levels[0].data.flatMap(x => x).map(x => x.value)));
 		Board.init(this.levels[0].data, this.levels[0].size);
 		this.saveGame();
@@ -319,6 +325,10 @@ const Game = {
 		this.activeLevel = value;
 		levelValue.innerHTML = value;
 	},
+	setHint: function (value) {
+		this.hint = value;
+		hint.innerHTML = value;
+	},
 	setGoal: function (value) {
 		this.goal = value;
 		goalValue.innerHTML = value;
@@ -342,7 +352,7 @@ const Game = {
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
 		this.setLevel(++this.activeLevel);
 		this.setGoal(nextLevelData.goal);
-		// this.goal = nextLevelData.goal;
+		this.setHint(nextLevelData.hint);
 		Player.setScore(Math.max(...nextLevelData.data.flatMap(x => x).map(x => x.value)));
 		Board.init(nextLevelData.data, nextLevelData.size);
 		this.saveGame();
@@ -354,7 +364,7 @@ const Game = {
 		this.setLevel(gameSave.id);
 		console.log(gameSave.goal);
 		this.setGoal(gameSave.goal);
-		// this.goal = gameSave.goal;
+		this.setHint(gameSave.hint);
 		Board.init(gameSave.data, gameSave.size);
 		console.log(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
 		Player.setScore(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
@@ -366,6 +376,7 @@ const Game = {
 			title: "Level " + this.activeLevel,
 			size: Board.size,
 			goal: this.goal,
+			hint: this.hint,
 			data: Board.getDesk(),
 		}
 
@@ -428,9 +439,10 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
   // Implement sensor
   	console.log('mobile');
   	screen.orientation.lock("portrait");
-	gyro_button.style.visibility = 'visible';	
+	// gyroButton.style.visibility = 'visible';	
+	gyroButton.style.display = 'block';	
   	let is_running = false;
-  	gyro_button.onclick = function(e) {
+  	gyroButton.onclick = function(e) {
 		e.preventDefault();
 
 		// Request permission for iOS 13+ devices
@@ -440,15 +452,15 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 
 		if (is_running){
 			window.removeEventListener("devicemotion", handleMotion);
-			gyro_button.innerHTML = "Start gyro";
-			gyro_button.classList.add('btn-success');
-			gyro_button.classList.remove('btn-danger');
+			gyroButton.innerHTML = "Start gyro";
+			gyroButton.classList.add('btn-success');
+			gyroButton.classList.remove('btn-danger');
 			is_running = false;
 		}else{
 			window.addEventListener("devicemotion", handleMotion);
-			document.getElementById("start_gyro").innerHTML = "Stop gyro";
-			gyro_button.classList.remove('btn-success');
-			gyro_button.classList.add('btn-danger');
+			document.getElementById("start-gyro").innerHTML = "Stop gyro";
+			gyroButton.classList.remove('btn-success');
+			gyroButton.classList.add('btn-danger');
 			is_running = true;
 		}
 	};
@@ -457,6 +469,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 	let touchendX = 0;
 	let touchstartY = 0;
 	let touchendY = 0;
+
 	if(!is_running){
 		function checkDirection() {
 
@@ -466,14 +479,21 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 				if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {	/*most significant*/
 					if ( xDiff > 0 ) {
 						Player.makeMove(DIRECTION.LEFT);
+						console.log("slide Left");
 					} else {
 						Player.makeMove(DIRECTION.RIGHT);
+						console.log("slide Right");
+
 					}                       
-				} else {
+				} else if ( Math.abs( xDiff ) < Math.abs( yDiff ) ){
 					if ( yDiff > 0 ) {
 						Player.makeMove(DIRECTION.UP);
+						console.log("slide Up");
+
 					} else { 
 						Player.makeMove(DIRECTION.DOWN);
+						console.log("slide Down");
+
 					}                                                                 
 				}
 				xDown = null;
@@ -493,7 +513,8 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 	}
 }else{
   console.log('desktop');
-  gyro_button.style.visibility = 'hidden';	
+//   gyroButton.style.visibility = 'hidden';	
+  gyroButton.style.display = 'none';	
 }
 
 
@@ -544,3 +565,16 @@ minWidth.addEventListener("change", () => {
 });
 
 
+hintButton.onclick = function(e) {
+	console.log("here")
+
+	if(hintContainer.style.display == "none"){
+		hintContainer.style.display = "block"
+		hintButton.classList.remove('btn-success');
+		hintButton.classList.add('btn-danger');
+	}else{
+		hintContainer.style.display = "none"
+		hintButton.classList.remove('btn-danger');
+		hintButton.classList.add('btn-success');		
+	}	
+}
