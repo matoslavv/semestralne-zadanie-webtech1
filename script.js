@@ -9,6 +9,8 @@ const hint = document.getElementById("hint-text");
 const solution = document.getElementById("solution");
 const hintContainer = document.getElementById("container-hint");
 const solutionContainer = document.getElementById("container-solution");
+const modal = document.getElementById("myModal");
+const close = document.getElementsByClassName("close")[0];
 
 const BASE_VALUE = 3;
 
@@ -337,6 +339,11 @@ const Game = {
 			}).then(() => this.loadSave());
 	},
 	nextLevel: function () {
+		if(this.activeLevel==10){
+			modal.style.display = "block";
+			this.reset();
+			return;
+		}
 		const nextLevelData = this.levels.filter(x => x.id === this.activeLevel + 1)[0];
 		this.setLevel(++this.activeLevel);
 		this.setGoal(nextLevelData.goal);
@@ -574,3 +581,8 @@ solutionButton.addEventListener('click', () => {
 		solutionButton.classList.add('btn-success');
 	}
 });
+
+close.onclick = function() { 
+	modal.style.display = "none";
+	slideShow = 0;
+}
