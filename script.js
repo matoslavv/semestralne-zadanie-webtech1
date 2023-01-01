@@ -30,7 +30,6 @@ const Board = {
 	_oldDesk: [],
 	size: 0,
 	init: function(desk, size) {
-		console.log('Board init');
 		this.size = size;
 		for (let i = 0; i < this.size; i++) {
 			this._desk[i] = [];
@@ -263,7 +262,6 @@ const Player = {
 		Game.saveGame();
 	},
 	setScore: function (value) {
-		console.log(value);
 		this.score = value;
 		scoreValue.innerHTML = value;
 		if (this.score === Game.goal) {
@@ -288,26 +286,14 @@ const Game = {
 		this.setGoal(this.levels[0].goal);
 		this.setHint(this.levels[0].hint);
 		this.setSolution(this.levels[0].solution);
-		console.log(this.levels[0].hint);
 		Player.setScore(Math.max(...this.levels[0].data.flatMap(x => x).map(x => x.value)));
 		Board.init(this.levels[0].data, this.levels[0].size);
 		this.saveGame();
-
-		console.log(this.activeLevel);
-
-		// this.activeLevel--;
-		// this.setLevel(this.levels[this.activeLevel].id);
-		// this.setGoal(this.levels[this.activeLevel].goal);
-		// Player.setScore(Math.max(...this.levels[this.activeLevel].data.flatMap(x => x).map(x => x.value)));
-		// Board.init(this.levels[this.activeLevel].data, this.levels[this.activeLevel].size);
-		// this.saveGame();
 	},
 	lost: function () {
-		console.log('Game over');
 		this.reset();
 	},
 	win: function () {
-		console.log('You won');
 		this.nextLevel();
 	},
 	setLevel: function (value) {
@@ -349,12 +335,10 @@ const Game = {
 	loadSave: function () {
 		const gameSave = JSON.parse(localStorage.getItem('game-save')) || this.levels[0];
 		this.setLevel(gameSave.id);
-		console.log(gameSave.goal);
 		this.setGoal(gameSave.goal);
 		this.setHint(gameSave.hint);
 		this.setSolution(gameSave.solution);
 		Board.init(gameSave.data, gameSave.size);
-		console.log(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
 		Player.setScore(gameSave.hasOwnProperty('score') ? gameSave.score : Math.max(...gameSave.data.flatMap(x => x).map(x => x.value)));
 	},
 	saveGame: function () {
@@ -370,7 +354,6 @@ const Game = {
 		}
 
 		localStorage.setItem('game-save', JSON.stringify(gameSave));
-		console.log(JSON.parse(localStorage.getItem('game-save')));
 	},
 	removeSave: function () {
 		localStorage.removeItem('game-save');
@@ -404,14 +387,6 @@ window.addEventListener('keydown', (e) => {
 
 Game.init();
 
-// Save state before closing tab/game
- window.addEventListener('beforeunload', function (e) {
-	e.preventDefault();
-	// e.returnValue = '';
-	// this.localStorage.setItem('game-save', 'kks')
-});
-
-// PWA
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -423,15 +398,12 @@ if ("serviceWorker" in navigator) {
 
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-  	console.log('mobile');
   	screen.orientation.lock("portrait");
-	// gyroButton.style.visibility = 'visible';
 	gyroButton.style.display = 'block';
   	let is_running = false;
   	gyroButton.onclick = function(e) {
 		e.preventDefault();
 
-		// Request permission for iOS 13+ devices
 		if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
 			DeviceMotionEvent.requestPermission();
 		}
@@ -462,24 +434,17 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 				var xDiff = touchstartX - touchendX;
 				var yDiff = touchstartY - touchendY;
 
-				if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {	/*most significant*/
+				if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
 					if ( xDiff > 0 ) {
 						Player.makeMove(DIRECTION.LEFT);
-						console.log("slide Left");
 					} else {
 						Player.makeMove(DIRECTION.RIGHT);
-						console.log("slide Right");
-
 					}
 				} else if ( Math.abs( xDiff ) < Math.abs( yDiff ) ){
 					if ( yDiff > 0 ) {
 						Player.makeMove(DIRECTION.UP);
-						console.log("slide Up");
-
 					} else {
 						Player.makeMove(DIRECTION.DOWN);
-						console.log("slide Down");
-
 					}
 				}
 				xDown = null;
@@ -498,8 +463,6 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 			})
 	}
 }else{
-  console.log('desktop');
-//   gyroButton.style.visibility = 'hidden';
   gyroButton.style.display = 'none';
 }
 

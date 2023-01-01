@@ -14,7 +14,6 @@ const assets = [
   "./assets/img/favicon-196x196.png",
 ]
 
-// Don't cache till app is done
 self.addEventListener("install", function(installEvent) {
   installEvent.waitUntil(
     caches.open(static3hree).then(cache => {
